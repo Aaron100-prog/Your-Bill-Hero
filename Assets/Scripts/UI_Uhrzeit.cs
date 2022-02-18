@@ -7,8 +7,8 @@ public class UI_Uhrzeit : MonoBehaviour
 {
     public float sekunden;
     public int minuten;
-    public int stunden;
-    public int tage;
+    public int stunden = 8;
+    public int tage = 1;
 
     public TMPro.TMP_Text UITage;
     public TMPro.TMP_Text UIUhrzeit;
@@ -16,8 +16,7 @@ public class UI_Uhrzeit : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        sekunden += Time.fixedDeltaTime;
-
+        sekunden += Time.fixedDeltaTime * 36f;
         if(sekunden >= 60)
         {
             sekunden = 0;
