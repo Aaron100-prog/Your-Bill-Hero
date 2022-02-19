@@ -6,6 +6,7 @@ public class CameraMovement : MonoBehaviour
 {
     private new Camera camera;
     public float randdicke = 10f;
+    private Vector3 letztemausposition;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +33,25 @@ public class CameraMovement : MonoBehaviour
         {
             pos.x -= 2f * Time.deltaTime;
         }
+        transform.position = pos;
         float zoom = Input.GetAxis("Mouse ScrollWheel");
         camera.orthographicSize -= zoom * 30f * Time.deltaTime;
 
-        transform.position = pos;
+        if(Input.GetMouseButtonDown(2))
+        {
+            letztemausposition = camera.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+            Vector3 veraenderung = camera.ScreenToWorldPoint(Input.mousePosition) - letztemausposition;
+            transform.Translate(veraenderung.x * -1f, veraenderung.y * -1f, 0f);
+        }
+        if (Input.GetMouseButtonUp(2))
+        {
+            letztemausposition = transform.position;
+        }
+        letztemausposition = camera.ScreenToWorldPoint(Input.mousePosition);
+
     }
 }
