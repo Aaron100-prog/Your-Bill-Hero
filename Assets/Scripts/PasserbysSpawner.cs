@@ -9,7 +9,6 @@ public class PasserbysSpawner : MonoBehaviour
     public float MaxTime = 15;
     float RandomSpawnTime;
     float time = 0;
-    public GameObject spawn;
     public GameObject Passerby;
     public GameObject LeftSpawnparent;
     Transform[] Leftspawns;
