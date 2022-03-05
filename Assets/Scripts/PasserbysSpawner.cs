@@ -20,6 +20,9 @@ public class PasserbysSpawner : MonoBehaviour
     public GameObject RightGoalparent;
     Transform[] RightGoals;
 
+    //Shirt
+    public Sprite[] Shirts;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,16 +41,42 @@ public class PasserbysSpawner : MonoBehaviour
         {
             if(Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
             {
-                AIDestinationSetter Spawned = Instantiate(Passerby, Leftspawns[Mathf.RoundToInt(Random.Range(0f, Leftspawns.Length - 2)) + 1].position, Quaternion.identity).GetComponent<AIDestinationSetter>();
-                Spawned.target = RightGoals[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 2)) + 1];
+                GameObject Spawned = Instantiate(Passerby, Leftspawns[Mathf.RoundToInt(Random.Range(0f, Leftspawns.Length - 2)) + 1].position, Quaternion.identity);
+                AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
+                SpriteRenderer renderer = Spawned.GetComponentInChildren<SpriteRenderer>();
+                Setter.target = RightGoals[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 2)) + 1];
+                renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 1))];
             }
             else
             {
-                AIDestinationSetter Spawned = Instantiate(Passerby, Rightspawns[(int)Random.Range(0f, Rightspawns.Length - 2) + 1].position, Quaternion.identity).GetComponent<AIDestinationSetter>();
-                Spawned.target = LeftGoals[Mathf.RoundToInt(Random.Range(0f, LeftGoals.Length - 2)) + 1];
+                GameObject Spawned = Instantiate(Passerby, Rightspawns[(int)Random.Range(0f, Rightspawns.Length - 2) + 1].position, Quaternion.identity);
+                AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
+                SpriteRenderer renderer = Spawned.GetComponentInChildren<SpriteRenderer>();
+                Setter.target = LeftGoals[Mathf.RoundToInt(Random.Range(0f, LeftGoals.Length - 2)) + 1];
+                renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 1))];
             }
-            
-            
+
+            /*
+            if (Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
+            {
+                GameObject Spawned = Instantiate(Passerby, Leftspawns[Mathf.RoundToInt(Random.Range(0f, Leftspawns.Length - 2)) + 1].position, Quaternion.identity).GetComponent<GameObject>();
+                AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
+                SpriteRenderer ShirtRenderer = Spawned.transform.Find("Shirt").GetComponent<SpriteRenderer>();
+                ShirtRenderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, Shirts.Length - 1))];
+
+                Setter.target = RightGoals[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 2)) + 1];
+            }
+            else
+            {
+                GameObject Spawned = Instantiate(Passerby, Leftspawns[Mathf.RoundToInt(Random.Range(0f, Rightspawns.Length - 2)) + 1].position, Quaternion.identity).GetComponent<GameObject>();
+                AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
+                SpriteRenderer ShirtRenderer = Spawned.transform.Find("Shirt").GetComponent<SpriteRenderer>();
+                ShirtRenderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, Shirts.Length - 1))];
+
+                Setter.target = LeftGoals[Mathf.RoundToInt(Random.Range(0f, LeftGoals.Length - 2)) + 1];
+            }
+            */
+
             time = 0;
             RandomSpawnTime = Random.Range(MinTime, MaxTime);
         }
