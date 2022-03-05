@@ -2930,7 +2930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54bd83634609fe542939bc73719cdfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randdicke: 10
 --- !u!1 &967967989
 GameObject:
   m_ObjectHideFlags: 0
@@ -12355,7 +12354,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 4
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -12406,7 +12405,7 @@ MonoBehaviour:
   heuristic: 2
   heuristicScale: 1
   threadCount: 1
-  maxFrameTime: 1
+  maxFrameTime: 10
   batchGraphUpdates: 0
   graphUpdateBatchingInterval: 0.2
   euclideanEmbedding:
@@ -12414,7 +12413,7 @@ MonoBehaviour:
     seed: 0
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
-  showGraphs: 1
+  showGraphs: 0
 --- !u!114 &1927547396
 MonoBehaviour:
   m_ObjectHideFlags: 0
