@@ -39,13 +39,16 @@ public class PasserbysSpawner : MonoBehaviour
         time += Time.deltaTime;
         if(time >= RandomSpawnTime)
         {
-            if(Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
+            time = 0;
+            RandomSpawnTime = Random.Range(MinTime, MaxTime);
+
+            if (Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
             {
                 GameObject Spawned = Instantiate(Passerby, Leftspawns[Mathf.RoundToInt(Random.Range(0f, Leftspawns.Length - 2)) + 1].position, Quaternion.identity);
                 AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
                 SpriteRenderer renderer = Spawned.GetComponentInChildren<SpriteRenderer>();
                 Setter.target = RightGoals[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 2)) + 1];
-                renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 1))];
+                renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, Shirts.Length - 1))];
             }
             else
             {
@@ -53,7 +56,7 @@ public class PasserbysSpawner : MonoBehaviour
                 AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
                 SpriteRenderer renderer = Spawned.GetComponentInChildren<SpriteRenderer>();
                 Setter.target = LeftGoals[Mathf.RoundToInt(Random.Range(0f, LeftGoals.Length - 2)) + 1];
-                renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, RightGoals.Length - 1))];
+                renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, Shirts.Length - 1))];
             }
 
             /*
@@ -77,8 +80,7 @@ public class PasserbysSpawner : MonoBehaviour
             }
             */
 
-            time = 0;
-            RandomSpawnTime = Random.Range(MinTime, MaxTime);
+            
         }
     }
 }
