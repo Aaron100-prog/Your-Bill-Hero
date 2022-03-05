@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     private new Camera camera;
-    public float randdicke = 10f;
     private Vector3 letztemausposition;
     // Start is called before the first frame update
     void Start()
@@ -17,19 +16,19 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         Vector3 pos = transform.position;
-        if(Input.GetKey(KeyCode.W) || Input.mousePosition.y >= Screen.height - randdicke)
+        if(Input.GetKey(KeyCode.W))
         {
             pos.y += 2f * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S) || Input.mousePosition.y <= randdicke)
+        if (Input.GetKey(KeyCode.S))
         {
             pos.y -= 2f * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.D) || Input.mousePosition.x >= Screen.width - randdicke)
+        if (Input.GetKey(KeyCode.D))
         {
             pos.x += 2f * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.A) || Input.mousePosition.x <= randdicke)
+        if (Input.GetKey(KeyCode.A))
         {
             pos.x -= 2f * Time.deltaTime;
         }
