@@ -5,22 +5,19 @@ using Pathfinding;
 
 public class PasserbyAI : MonoBehaviour
 {
-    AIDestinationSetter AI;
+    IAstarAI AI;
 
     // Update is called once per frame
     void Start()
     {
-        AI = GetComponent<AIDestinationSetter>();
+        AI = GetComponent<IAstarAI>();
     }
     void Update()
     {
-        
-        if(string.Equals(AI.target.parent.parent.name, "Ziele"))
+        if (Vector3.Distance(transform.position, AI.destination) < 1f)
         {
-            if (Vector3.Distance(transform.position, AI.target.position) < 1f)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
         }
+        
     }
 }
