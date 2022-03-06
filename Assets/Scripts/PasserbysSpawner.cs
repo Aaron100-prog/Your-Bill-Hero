@@ -10,7 +10,7 @@ public class PasserbysSpawner : MonoBehaviour
     float RandomSpawnTime;
     float time = 0;
     public GameObject Passerby;
-    public GameObject LeftSpawnparent;
+    /*public GameObject LeftSpawnparent;
     Transform[] Leftspawns;
     public GameObject RightSpawnparent;
     Transform[] Rightspawns;
@@ -18,19 +18,27 @@ public class PasserbysSpawner : MonoBehaviour
     public GameObject LeftGoalparent;
     Transform[] LeftGoals;
     public GameObject RightGoalparent;
-    Transform[] RightGoals;
+    Transform[] RightGoals;*/
 
     //Shirt
     public Sprite[] Shirts;
 
+    //Spawn Circles
+    [SerializeField]
+    private SpawnCircles[] Circles;
+    private int SpawnCircleID;
+    private int GoalCircleID;
+
     // Start is called before the first frame update
     void Start()
     {
-        Leftspawns = LeftSpawnparent.GetComponentsInChildren<Transform>();
+        getspawncircles();
+
+        /*Leftspawns = LeftSpawnparent.GetComponentsInChildren<Transform>();
         Rightspawns = RightSpawnparent.GetComponentsInChildren<Transform>();
 
         LeftGoals = LeftGoalparent.GetComponentsInChildren<Transform>();
-        RightGoals = RightGoalparent.GetComponentsInChildren<Transform>();
+        RightGoals = RightGoalparent.GetComponentsInChildren<Transform>();*/
 
         RandomSpawnTime = Random.Range(MinTime, MaxTime);
     }
@@ -42,7 +50,24 @@ public class PasserbysSpawner : MonoBehaviour
             time = 0;
             RandomSpawnTime = Random.Range(MinTime, MaxTime);
 
-            if (Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
+            SpawnCircleID = Mathf.RoundToInt(Random.Range(0f, Circles.Length - 1));
+            SpawnCircles UsedCircle = Circles[SpawnCircleID];
+            Vector3 UsedPosition = UsedCircle.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * Random.Range(0f, UsedCircle.Radius);
+            GoalCircleID = Mathf.RoundToInt(Random.Range(0f, Circles.Length - 1));
+            while (GoalCircleID == SpawnCircleID)
+            {
+                GoalCircleID = Mathf.RoundToInt(Random.Range(0f, Circles.Length - 1));
+            }
+
+            SpawnCircles GoalCircle = Circles[GoalCircleID];
+            Vector3 GoalPosition = GoalCircle.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * Random.Range(0f, GoalCircle.Radius);
+
+            GameObject Spawned = Instantiate(Passerby, UsedPosition , Quaternion.identity);
+            IAstarAI ai = Spawned.GetComponent<IAstarAI>();
+            SpriteRenderer renderer = Spawned.GetComponentInChildren<SpriteRenderer>();
+            ai.destination = GoalPosition;
+            renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, Shirts.Length - 1))];
+            /*if (Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
             {
                 GameObject Spawned = Instantiate(Passerby, Leftspawns[Mathf.RoundToInt(Random.Range(0f, Leftspawns.Length - 2)) + 1].position, Quaternion.identity);
                 AIDestinationSetter Setter = Spawned.GetComponent<AIDestinationSetter>();
@@ -57,7 +82,7 @@ public class PasserbysSpawner : MonoBehaviour
                 SpriteRenderer renderer = Spawned.GetComponentInChildren<SpriteRenderer>();
                 Setter.target = LeftGoals[Mathf.RoundToInt(Random.Range(0f, LeftGoals.Length - 2)) + 1];
                 renderer.sprite = Shirts[Mathf.RoundToInt(Random.Range(0f, Shirts.Length - 1))];
-            }
+            }*/
 
             /*
             if (Mathf.RoundToInt(Random.Range(1f, 2f)) == 1f)
@@ -80,7 +105,13 @@ public class PasserbysSpawner : MonoBehaviour
             }
             */
 
-            
+
         }
     }
+
+    void getspawncircles()
+    {
+        Circles = GameObject.FindObjectsOfType<SpawnCircles>();
+    }
+    
 }
