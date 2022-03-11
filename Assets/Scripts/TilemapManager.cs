@@ -10,7 +10,7 @@ public class TilemapManager : MonoBehaviour
     [SerializeField]
     private Tilemap tilemap;
     [SerializeField]
-    private TileBase grasstile;
+    private TileBase[] Tiles;
     [SerializeField]
     private Toggle Debug_InputTileToggle;
     [SerializeField]
@@ -18,11 +18,15 @@ public class TilemapManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && Debug_InputTileToggle.isOn)
+        if(Input.GetMouseButtonDown(0) && Debug_InputTileToggle.isOn && Debug_InputTileID.text != string.Empty)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(mousePos);
-            tilemap.SetTile(gridPos, grasstile);
+            if(int.Parse(Debug_InputTileID.text) - 1 < Tiles.Length && int.Parse(Debug_InputTileID.text) > -1)
+            {
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int gridPos = tilemap.WorldToCell(mousePos);
+                tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+            }
         }
+        
     }
 }

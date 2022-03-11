@@ -13485,9 +13485,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1401446000}
-  grasstile: {fileID: 11400000, guid: ad528587b7674b24dbe048244f2a3dec, type: 2}
+  Tiles:
+  - {fileID: 11400000, guid: b3cc78c6be57b1b4fb2f182d0856d5a1, type: 2}
+  - {fileID: 11400000, guid: 75c7fcc69d617f94788fb1a6dfbd5d95, type: 2}
+  - {fileID: 11400000, guid: ad528587b7674b24dbe048244f2a3dec, type: 2}
+  - {fileID: 11400000, guid: fd62f38700d4cbd4789c2650b797bc9b, type: 2}
+  - {fileID: 11400000, guid: 5b73ac0602a58604a85e82af89ae42fb, type: 2}
+  - {fileID: 11400000, guid: 64a1aec6a4213374aace28d9937cccc6, type: 2}
   Debug_InputTileToggle: {fileID: 974807862}
-  Debug_InputTileID: {fileID: 0}
+  Debug_InputTileID: {fileID: 891325647}
 --- !u!1 &1967811683
 GameObject:
   m_ObjectHideFlags: 0
