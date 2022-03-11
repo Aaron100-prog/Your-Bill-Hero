@@ -13486,6 +13486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1401446000}
   grasstile: {fileID: 11400000, guid: ad528587b7674b24dbe048244f2a3dec, type: 2}
+  Debug_InputTileToggle: {fileID: 974807862}
+  Debug_InputTileID: {fileID: 0}
 --- !u!1 &1967811683
 GameObject:
   m_ObjectHideFlags: 0
