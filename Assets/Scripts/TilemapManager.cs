@@ -54,7 +54,7 @@ public class TilemapManager : MonoBehaviour
         }
         //In Datei speichern
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(Application.dataPath + "/saves/tilemapsave.save", json);
+        File.WriteAllText(Application.dataPath + "/Saves/tilemapsave.save", json);
 
         Debug.Log("Tilemap gespeichert!");
     }

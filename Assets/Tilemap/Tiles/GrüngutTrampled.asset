@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d80549a9c70d9d54c90caa3cef4a7ca6, type: 3}
-  m_Name: "Gr\xFCngutTrampelfeld"
+  m_Name: "Gr\xFCngutTrampled"
   m_EditorClassIdentifier: 
-  tile: {fileID: 0}
-  id: 
+  tile: {fileID: 11400000, guid: ad528587b7674b24dbe048244f2a3dec, type: 2}
+  id: "Gr\xFCngutTrampled"

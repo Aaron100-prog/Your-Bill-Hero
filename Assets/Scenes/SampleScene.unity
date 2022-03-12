@@ -14142,6 +14142,7 @@ MonoBehaviour:
   Debug_InputTileID: {fileID: 891325647}
   tiles:
   - {fileID: 11400000, guid: e8fbb0f39f4f03c4ea24885426b052c6, type: 2}
+  - {fileID: 11400000, guid: 3e9d6b0efe88699498ab31a9cb3fa2d1, type: 2}
 --- !u!1 &1967811683
 GameObject:
   m_ObjectHideFlags: 0
