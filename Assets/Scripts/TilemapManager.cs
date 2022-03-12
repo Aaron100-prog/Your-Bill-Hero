@@ -32,7 +32,7 @@ public class TilemapManager : MonoBehaviour
         
     }
 
-    public void SaveTilemap()
+    public void SaveTilemap(string Savename)
     {
         BoundsInt bounds = tilemap.cellBounds;
         TilemapData data = new TilemapData();
@@ -54,15 +54,15 @@ public class TilemapManager : MonoBehaviour
         }
         //In Datei speichern
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(Application.dataPath + "/Saves/tilemapsave.save", json);
+        File.WriteAllText(Application.dataPath + "/Saves/" + Savename + ".save", json);
 
         Debug.Log("Tilemap gespeichert!");
     }
-    public void LoadTilemap()
+    public void LoadTilemap(string Savename)
     {
-        if(File.Exists(Application.dataPath + "/Saves/tilemapsave.save"))
+        if(File.Exists(Application.dataPath + "/Saves/" + Savename + ".save"))
         {
-            string json = File.ReadAllText(Application.dataPath + "/Saves/tilemapsave.save");
+            string json = File.ReadAllText(Application.dataPath + "/Saves/" + Savename + ".save");
             TilemapData tilemapData = JsonUtility.FromJson<TilemapData>(json);
 
             tilemap.ClearAllTiles();
