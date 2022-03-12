@@ -18,6 +18,10 @@ public class TilemapManager : MonoBehaviour
     private TMP_InputField Debug_InputTileID;
     public List<ScriptableTile> tiles = new List<ScriptableTile>();
 
+    void Start()
+    {
+        SaveTilemap("default");
+    }
     void Update()
     {
         if(Input.GetMouseButtonDown(0) && Debug_InputTileToggle.isOn && Debug_InputTileID.text != string.Empty)
