@@ -6,10 +6,12 @@ public class CameraMovement : MonoBehaviour
 {
     private new Camera camera;
     private Vector3 letztemausposition;
+    private float targetzoom;
     // Start is called before the first frame update
     void Start()
     {
         camera = GetComponent<Camera>();
+        targetzoom = camera.orthographicSize;
     }
 
     // Update is called once per frame
@@ -33,10 +35,12 @@ public class CameraMovement : MonoBehaviour
             pos.x -= 2f * Time.deltaTime;
         }
         transform.position = pos;
-        float zoom = Input.GetAxis("Mouse ScrollWheel");
-        camera.orthographicSize -= zoom * 30f * Time.deltaTime;
+        float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
+        targetzoom = targetzoom - zoom;
+        camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, targetzoom, Time.deltaTime * 7.5f);
 
-        if(Input.GetMouseButtonDown(2))
+
+        if (Input.GetMouseButtonDown(2))
         {
             letztemausposition = camera.ScreenToWorldPoint(Input.mousePosition);
         }
