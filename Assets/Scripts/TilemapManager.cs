@@ -58,6 +58,20 @@ public class TilemapManager : MonoBehaviour
 
         Debug.Log("Tilemap gespeichert!");
     }
+    public void LoadTilemap()
+    {
+        string json = File.ReadAllText(Application.dataPath + "/Saves/tilemapsave.save");
+        TilemapData tilemapData = JsonUtility.FromJson<TilemapData>(json);
+
+        tilemap.ClearAllTiles();
+
+        for (int i = 0; i < tilemapData.position.Count; i++)
+        {
+            tilemap.SetTile(tilemapData.position[i], tiles.Find(t => t.name == tilemapData.tiles[i]).tile);
+        }
+
+        Debug.Log("Tilemap geladen!");
+    }
 }
 public class TilemapData
 {
