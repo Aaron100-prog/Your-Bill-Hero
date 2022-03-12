@@ -60,17 +60,24 @@ public class TilemapManager : MonoBehaviour
     }
     public void LoadTilemap()
     {
-        string json = File.ReadAllText(Application.dataPath + "/Saves/tilemapsave.save");
-        TilemapData tilemapData = JsonUtility.FromJson<TilemapData>(json);
-
-        tilemap.ClearAllTiles();
-
-        for (int i = 0; i < tilemapData.position.Count; i++)
+        if(File.Exists(Application.dataPath + "/Saves/tilemapsave.save"))
         {
-            tilemap.SetTile(tilemapData.position[i], tiles.Find(t => t.name == tilemapData.tiles[i]).tile);
-        }
+            string json = File.ReadAllText(Application.dataPath + "/Saves/tilemapsave.save");
+            TilemapData tilemapData = JsonUtility.FromJson<TilemapData>(json);
 
-        Debug.Log("Tilemap geladen!");
+            tilemap.ClearAllTiles();
+
+            for (int i = 0; i < tilemapData.position.Count; i++)
+            {
+                tilemap.SetTile(tilemapData.position[i], tiles.Find(t => t.name == tilemapData.tiles[i]).tile);
+            }
+
+            Debug.Log("Tilemap geladen!");
+        }
+        else
+        {
+            Debug.LogWarning("Kein Tilemap Save vorhanden!");
+        }
     }
 }
 public class TilemapData
