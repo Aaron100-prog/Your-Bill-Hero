@@ -98,3 +98,4 @@ $RECYCLE.BIN/
 
 # Your Bill Hero files
 *.save
+*.save.meta
