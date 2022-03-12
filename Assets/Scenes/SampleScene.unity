@@ -14155,6 +14155,10 @@ MonoBehaviour:
   tiles:
   - {fileID: 11400000, guid: e8fbb0f39f4f03c4ea24885426b052c6, type: 2}
   - {fileID: 11400000, guid: 3e9d6b0efe88699498ab31a9cb3fa2d1, type: 2}
+  - {fileID: 11400000, guid: 9ab6d09ed5535d745b50e0ff99c4a243, type: 2}
+  - {fileID: 11400000, guid: 1fa237e36df07a449a2d245acb132cbd, type: 2}
+  - {fileID: 11400000, guid: a2bd088ab3cf9e54c8bececcb7859d83, type: 2}
+  - {fileID: 11400000, guid: e1070152aa1acfe42a9b6885e0a08673, type: 2}
 --- !u!1 &1967811683
 GameObject:
   m_ObjectHideFlags: 0
