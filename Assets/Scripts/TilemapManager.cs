@@ -28,6 +28,10 @@ public class TilemapManager : MonoBehaviour
     private Color lowattractioncolor;
     [SerializeField]
     private Color normalattractioncolor;
+    [Header("Preview System")]
+    [SerializeField]
+    private Tilemap PreviewTilemap;
+    private Vector3Int lastposition;
 
     void Start()
     {
@@ -35,15 +39,27 @@ public class TilemapManager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && Debug_InputTileToggle.isOn && Debug_InputTileID.text != string.Empty)
+        if(Debug_InputTileToggle.isOn && Debug_InputTileID.text != string.Empty)
         {
-            if(int.Parse(Debug_InputTileID.text) - 1 < Tiles.Length && int.Parse(Debug_InputTileID.text) > -1)
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(mousePos);
+            if(gridPos != lastposition)
             {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector3Int gridPos = tilemap.WorldToCell(mousePos);
-                tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                PreviewTilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                PreviewTilemap.SetTile(lastposition, null);
+                lastposition = gridPos;
+            }
+            
+            if (Input.GetMouseButtonDown(0) )
+            {
+                if (int.Parse(Debug_InputTileID.text) - 1 < Tiles.Length && int.Parse(Debug_InputTileID.text) > -1)
+                {
+                    
+                    tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                }
             }
         }
+        
         
     }
 
