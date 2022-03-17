@@ -18,6 +18,17 @@ public class TilemapManager : MonoBehaviour
     private TMP_InputField Debug_InputTileID;
     public List<ScriptableTile> tiles = new List<ScriptableTile>();
 
+    [Header("Attraction System")]
+    [SerializeField]
+    private Tilemap AttractionTilemap;
+    private Dictionary<Vector3Int, float> AttractionData = new Dictionary<Vector3Int, float>();
+    [SerializeField]
+    private Color highattractioncolor;
+    [SerializeField]
+    private Color lowattractioncolor;
+    [SerializeField]
+    private Color normalattractioncolor;
+
     void Start()
     {
         SaveTilemap("default");
@@ -34,6 +45,46 @@ public class TilemapManager : MonoBehaviour
             }
         }
         
+    }
+
+    void ChangeAttraction(Vector3Int Position, float amount)
+    {
+        if(!AttractionData.ContainsKey(Position))
+        {
+            AttractionData.Add(Position, 0f);
+        }
+        float newattraction = AttractionData[Position] + amount;
+        if(newattraction == 0f)
+        {
+            AttractionData.Remove(Position);
+
+            AttractionTilemap.SetTileFlags(Position, TileFlags.None);
+            AttractionTilemap.SetColor(Position, normalattractioncolor);
+            AttractionTilemap.SetTileFlags(Position, TileFlags.LockColor);
+        }
+        else
+        {
+            AttractionData[Position] = Mathf.Clamp(newattraction, -100f, 100f);
+        }
+
+    }
+    void VisualizeAttration()
+    {
+        foreach(var entry in AttractionData)
+        {
+            float attractionpercent = entry.Value / 100f;
+            Color TileColor = highattractioncolor * attractionpercent + lowattractioncolor * (1f - attractionpercent);
+
+            AttractionTilemap.SetTileFlags(entry.Key, TileFlags.None);
+            AttractionTilemap.SetColor(entry.Key, TileColor);
+            AttractionTilemap.SetTileFlags(entry.Key, TileFlags.LockColor);
+        }
+    }
+    void AddAttraction(Vector2 worldPosition, float Amount)
+    {
+        Vector3Int gridPosition = AttractionTilemap.WorldToCell(worldPosition);
+        ChangeAttraction(gridPosition, Amount);
+        VisualizeAttration();
     }
 
     public void SaveTilemap(string Savename)
