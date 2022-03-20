@@ -65,6 +65,10 @@ public class TilemapManager : MonoBehaviour
         
         
     }
+    public void ClearPreviewTilemap()
+    {
+        PreviewTilemap.ClearAllTiles();
+    }
 
     void ChangeAttraction(Vector3Int Position, float amount)
     {
