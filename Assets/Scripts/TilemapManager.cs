@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 using System.IO;
@@ -54,8 +55,10 @@ public class TilemapManager : MonoBehaviour
             {
                 if (int.Parse(Debug_InputTileID.text) - 1 < Tiles.Length && int.Parse(Debug_InputTileID.text) > -1)
                 {
-                    
-                    tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                    if(!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                    }
                 }
             }
         }
