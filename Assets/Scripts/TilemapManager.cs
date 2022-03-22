@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 using System.IO;
@@ -18,22 +19,95 @@ public class TilemapManager : MonoBehaviour
     private TMP_InputField Debug_InputTileID;
     public List<ScriptableTile> tiles = new List<ScriptableTile>();
 
+    [Header("Attraction System")]
+    [SerializeField]
+    private Tilemap AttractionTilemap;
+    private Dictionary<Vector3Int, float> AttractionData = new Dictionary<Vector3Int, float>();
+    [SerializeField]
+    private Color highattractioncolor;
+    [SerializeField]
+    private Color lowattractioncolor;
+    [SerializeField]
+    private Color normalattractioncolor;
+    [Header("Preview System")]
+    [SerializeField]
+    private Tilemap PreviewTilemap;
+    private Vector3Int lastposition;
+
     void Start()
     {
         SaveTilemap("default");
     }
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && Debug_InputTileToggle.isOn && Debug_InputTileID.text != string.Empty)
+        if(Debug_InputTileToggle.isOn && Debug_InputTileID.text != string.Empty)
         {
-            if(int.Parse(Debug_InputTileID.text) - 1 < Tiles.Length && int.Parse(Debug_InputTileID.text) > -1)
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(mousePos);
+            if(gridPos != lastposition)
             {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector3Int gridPos = tilemap.WorldToCell(mousePos);
-                tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                PreviewTilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                PreviewTilemap.SetTile(lastposition, null);
+                lastposition = gridPos;
+            }
+            
+            if (Input.GetMouseButtonDown(0) )
+            {
+                if (int.Parse(Debug_InputTileID.text) - 1 < Tiles.Length && int.Parse(Debug_InputTileID.text) > -1)
+                {
+                    if(!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        tilemap.SetTile(gridPos, Tiles[int.Parse(Debug_InputTileID.text)]);
+                    }
+                }
             }
         }
         
+        
+    }
+    public void ClearPreviewTilemap()
+    {
+        PreviewTilemap.ClearAllTiles();
+    }
+
+    void ChangeAttraction(Vector3Int Position, float amount)
+    {
+        if(!AttractionData.ContainsKey(Position))
+        {
+            AttractionData.Add(Position, 0f);
+        }
+        float newattraction = AttractionData[Position] + amount;
+        if(newattraction == 0f)
+        {
+            AttractionData.Remove(Position);
+
+            AttractionTilemap.SetTileFlags(Position, TileFlags.None);
+            AttractionTilemap.SetColor(Position, normalattractioncolor);
+            AttractionTilemap.SetTileFlags(Position, TileFlags.LockColor);
+        }
+        else
+        {
+            AttractionData[Position] = Mathf.Clamp(newattraction, -100f, 100f);
+        }
+
+    }
+    void VisualizeAttration()
+    {
+        foreach(var entry in AttractionData)
+        {
+            float attractionpercent = entry.Value / 100f;
+            Color TileColor = highattractioncolor * attractionpercent + lowattractioncolor * (1f - attractionpercent);
+
+            AttractionTilemap.SetTileFlags(entry.Key, TileFlags.None);
+            AttractionTilemap.SetColor(entry.Key, TileColor);
+            AttractionTilemap.SetTileFlags(entry.Key, TileFlags.LockColor);
+        }
+    }
+    void AddAttraction(Vector2 worldPosition, float Amount)
+    {
+        Vector3Int gridPosition = AttractionTilemap.WorldToCell(worldPosition);
+        ChangeAttraction(gridPosition, Amount);
+        VisualizeAttration();
     }
 
     public void SaveTilemap(string Savename)
