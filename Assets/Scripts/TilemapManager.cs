@@ -62,8 +62,24 @@ public class TilemapManager : MonoBehaviour
                 }
             }
         }
-        
-        
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            AddAttraction(mousePos, 10f, 5);
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            AddAttraction(mousePos, -10f, 5);
+        }
+        if (Input.GetMouseButtonDown(2))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(mousePos);
+            Debug.Log(AttractionData[gridPos]);
+        }
+
+
     }
     public void ClearPreviewTilemap()
     {
@@ -89,24 +105,44 @@ public class TilemapManager : MonoBehaviour
         {
             AttractionData[Position] = Mathf.Clamp(newattraction, -100f, 100f);
         }
-
     }
     void VisualizeAttration()
     {
         foreach(var entry in AttractionData)
         {
             float attractionpercent = entry.Value / 100f;
-            Color TileColor = highattractioncolor * attractionpercent + lowattractioncolor * (1f - attractionpercent);
+            Color TileColor;
+            Debug.Log(attractionpercent);
+            if (attractionpercent > 0)
+            {
+               TileColor  = highattractioncolor * attractionpercent;
+            }
+            else
+            {
+               TileColor  = lowattractioncolor * -attractionpercent;
+            }
 
             AttractionTilemap.SetTileFlags(entry.Key, TileFlags.None);
             AttractionTilemap.SetColor(entry.Key, TileColor);
             AttractionTilemap.SetTileFlags(entry.Key, TileFlags.LockColor);
         }
     }
-    void AddAttraction(Vector2 worldPosition, float Amount)
+    void AddAttraction(Vector2 worldPosition, float Amount, int radius = 0)
     {
         Vector3Int gridPosition = AttractionTilemap.WorldToCell(worldPosition);
-        ChangeAttraction(gridPosition, Amount);
+
+        for(int x = -radius; x <= radius; x++)
+        {
+            for(int y = -radius; y <= radius; y++)
+            {
+                float distancecenter = Mathf.Abs(x) + Mathf.Abs(y);
+                if(distancecenter <= radius)
+                {
+                    Vector3Int nextTilePosition = new Vector3Int(gridPosition.x + x, gridPosition.y + y, 0);
+                    ChangeAttraction(nextTilePosition, Amount);
+                }
+            }
+        }
         VisualizeAttration();
     }
 
