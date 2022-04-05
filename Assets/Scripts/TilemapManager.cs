@@ -72,12 +72,12 @@ public class TilemapManager : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             AddAttraction(mousePos, -10f, 5);
         }
-        if (Input.GetMouseButtonDown(2))
+        /*if (Input.GetMouseButtonDown(2))
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPos = tilemap.WorldToCell(mousePos);
             Debug.Log(AttractionData[gridPos]);
-        }
+        }*/
 
 
     }
