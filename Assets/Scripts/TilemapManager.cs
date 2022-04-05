@@ -33,7 +33,19 @@ public class TilemapManager : MonoBehaviour
     [SerializeField]
     private Tilemap PreviewTilemap;
     private Vector3Int lastposition;
+    public TilemapManager instance;
 
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
     void Start()
     {
         SaveTilemap("default");
