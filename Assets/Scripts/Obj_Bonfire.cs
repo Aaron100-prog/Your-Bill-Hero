@@ -5,6 +5,7 @@ using UnityEngine;
 public class Obj_Bonfire : MonoBehaviour
 {
     public bool lit = false;
+    private bool build = false;
     private bool routinerunning = false;
     public Sprite unlitsprite;
     public Sprite litsprite1;
@@ -17,27 +18,31 @@ public class Obj_Bonfire : MonoBehaviour
     }
     void Update()
     {
-        if(lit)
+        if(build)
         {
-            if(!routinerunning)
+            if (lit)
             {
-                StartCoroutine(BurningAnim());
+                if (!routinerunning)
+                {
+                    StartCoroutine(BurningAnim());
+                }
             }
-        }
-        else
-        {
-            if(routinerunning)
+            else
             {
-                StopCoroutine(BurningAnim());
-                routinerunning = false;
+                if (routinerunning)
+                {
+                    StopCoroutine(BurningAnim());
+                    routinerunning = false;
+                }
+                Renderer.sprite = unlitsprite;
             }
-            Renderer.sprite = unlitsprite;
         }
 
     }
     IEnumerator BurningAnim()
     {
         routinerunning = true;
+        TilemapManager.instance.AddAttraction((Vector2)transform.position, 5f, 5);
         while(lit)
         {
             Renderer.sprite = litsprite1;
@@ -47,6 +52,12 @@ public class Obj_Bonfire : MonoBehaviour
             Renderer.sprite = litsprite3;
             yield return new WaitForSeconds(Random.Range(0.3f, 0.7f));
         }
-        
+        TilemapManager.instance.AddAttraction((Vector2)transform.position, -5f, 5);
+    }
+
+    public void Onfinishedbuilding()
+    {
+        Renderer.color = new Color(Renderer.color.r, Renderer.color.g, Renderer.color.b, 1);
+        build = true;
     }
 }

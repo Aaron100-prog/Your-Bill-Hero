@@ -33,7 +33,7 @@ public class TilemapManager : MonoBehaviour
     [SerializeField]
     private Tilemap PreviewTilemap;
     private Vector3Int lastposition;
-    public TilemapManager instance;
+    public static TilemapManager instance;
 
     void Awake()
     {
@@ -139,7 +139,7 @@ public class TilemapManager : MonoBehaviour
             AttractionTilemap.SetTileFlags(entry.Key, TileFlags.LockColor);
         }
     }
-    void AddAttraction(Vector2 worldPosition, float Amount, int radius = 0)
+    public void AddAttraction(Vector2 worldPosition, float Amount, int radius = 0)
     {
         Vector3Int gridPosition = AttractionTilemap.WorldToCell(worldPosition);
 
