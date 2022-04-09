@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
 
     public Toggle toggle;
 
+    private ContextMenu lastcontext;
+
     void Awake()
     {
         if (instance == null)
@@ -39,15 +41,23 @@ public class UIManager : MonoBehaviour
             if(!EventSystem.current.IsPointerOverGameObject())
             {
                 DeleteContextMenu();
+                if (lastcontext != null)
+                {
+                    lastcontext.isopen = false;
+                }
             }
             if (hit.collider != null)
             {
                 ContextMenu hitscript = hit.transform.gameObject.GetComponent<ContextMenu>();
-
                 //Überprüfen ob Objekt ein Context Menü besitzt und öffnen, ansonsten keine Interaktion
                 if(hitscript != null)
                 {
+                    if(lastcontext != null)
+                    {
+                        lastcontext.isopen = false;
+                    }
                     hitscript.OpenGUI();
+                    lastcontext = hitscript;
                 }
                 
             }

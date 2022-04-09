@@ -5,7 +5,7 @@ using UnityEngine;
 public class Obj_Bonfire : MonoBehaviour
 {
 
-    public bool lit = false;
+    private bool lit = false;
     private bool build = true;
     private bool routinerunning = false;
     public Sprite unlitsprite;
@@ -13,14 +13,25 @@ public class Obj_Bonfire : MonoBehaviour
     public Sprite litsprite2;
     public Sprite litsprite3;
     SpriteRenderer Renderer;
+    ContextMenu contextMenu;
+
     void Start()
     {
         Renderer = GetComponent<SpriteRenderer>();
+        contextMenu = GetComponent<ContextMenu>();
     }
     void Update()
     {
         if(build)
         {
+            if(contextMenu.activate_on)
+            {
+                lit = true;
+            }
+            else
+            {
+                lit = false;
+            }
             if (lit)
             {
                 if (!routinerunning)
