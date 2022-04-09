@@ -16,6 +16,10 @@ public class ContextMenu : MonoBehaviour
     public bool destroy;
     [HideInInspector]
     public bool destroy_on = false;
+    //follow
+    public bool follow;
+    [HideInInspector]
+    public bool follow_on = false;
 
     public void OpenGUI()
     {
@@ -38,11 +42,20 @@ public class ContextMenu : MonoBehaviour
             {
                 UIManager.instance.destroybutton.onClick.AddListener(OnClickDestroy);
             }
+            if(follow)
+            {
+                UIManager.instance.followbutton.onClick.AddListener(OnClickFollow);
+            }
         }
     }
     private void OnClickDestroy()
     {
         UIManager.instance.DeleteContextMenu();
         destroy_on = true;
+    }
+    private void OnClickFollow()
+    {
+        CameraMovement.instance.followtarget = gameObject;
+        CameraMovement.instance.following = true;
     }
 }

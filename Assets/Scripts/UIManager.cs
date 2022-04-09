@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
 
     public Toggle toggle;
     public Button destroybutton;
+    public Button followbutton;
 
     private ContextMenu lastcontext;
 
