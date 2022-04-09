@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Obj_Bonfire : MonoBehaviour
 {
+
     public bool lit = false;
-    private bool build = false;
+    private bool build = true;
     private bool routinerunning = false;
     public Sprite unlitsprite;
     public Sprite litsprite1;
@@ -37,6 +38,7 @@ public class Obj_Bonfire : MonoBehaviour
                 Renderer.sprite = unlitsprite;
             }
         }
+        
 
     }
     IEnumerator BurningAnim()
@@ -59,5 +61,7 @@ public class Obj_Bonfire : MonoBehaviour
     {
         Renderer.color = new Color(Renderer.color.r, Renderer.color.g, Renderer.color.b, 1);
         build = true;
+        ContextMenu context = transform.GetComponent<ContextMenu>();
+        context.ContextMenuenabled = true;
     }
 }
