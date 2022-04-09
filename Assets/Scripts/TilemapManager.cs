@@ -124,7 +124,7 @@ public class TilemapManager : MonoBehaviour
         {
             float attractionpercent = entry.Value / 100f;
             Color TileColor;
-            Debug.Log(attractionpercent);
+            //Debug.Log(attractionpercent);
             if (attractionpercent > 0)
             {
                TileColor  = highattractioncolor * attractionpercent;

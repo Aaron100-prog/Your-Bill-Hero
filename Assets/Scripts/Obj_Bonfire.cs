@@ -24,6 +24,10 @@ public class Obj_Bonfire : MonoBehaviour
     {
         if(build)
         {
+            if(contextMenu.destroy_on)
+            {
+                Destroy(gameObject);
+            }
             if(contextMenu.activate_on)
             {
                 lit = true;

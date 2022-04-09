@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject ContextMenu;
 
     public Toggle toggle;
+    public Button destroybutton;
 
     private ContextMenu lastcontext;
 
@@ -41,10 +42,6 @@ public class UIManager : MonoBehaviour
             if(!EventSystem.current.IsPointerOverGameObject())
             {
                 DeleteContextMenu();
-                if (lastcontext != null)
-                {
-                    lastcontext.isopen = false;
-                }
             }
             if (hit.collider != null)
             {
@@ -82,6 +79,10 @@ public class UIManager : MonoBehaviour
     public void DeleteContextMenu()
     {
         ContextMenu.SetActive(false);
+        if (lastcontext != null)
+        {
+            lastcontext.isopen = false;
+        }
     }
 
 }
