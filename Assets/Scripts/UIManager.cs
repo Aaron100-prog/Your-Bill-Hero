@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject ContextMenu;
 
+    public List<GameObject> ContextItems;
+    private float itemposition;
     public Toggle toggle;
     public Button destroybutton;
     public Button followbutton;
@@ -75,6 +77,7 @@ public class UIManager : MonoBehaviour
     }
     public void CreateContextMenu()
     {
+        RepaintContextMenu();
         ContextMenu.SetActive(true);
     }
     public void DeleteContextMenu()
@@ -84,6 +87,23 @@ public class UIManager : MonoBehaviour
         {
             lastcontext.isopen = false;
         }
+    }
+    public void RepaintContextMenu()
+    {
+        ContextItems.Add(toggle.gameObject);
+        ContextItems.Add(destroybutton.gameObject);
+        ContextItems.Add(followbutton.gameObject);
+
+        itemposition = ContextItems[0].GetComponent<RectTransform>().localPosition.y;
+        for(int i = 0; i < ContextItems.Count; i++)
+        {
+            if(ContextItems[i].activeSelf)
+            {
+                ContextItems[i].GetComponent<RectTransform>().localPosition = new Vector3(ContextItems[i].GetComponent<RectTransform>().localPosition.x, itemposition, 0);
+                itemposition = itemposition - 300f;
+            }
+        }
+        ContextItems.Clear();
     }
 
 }

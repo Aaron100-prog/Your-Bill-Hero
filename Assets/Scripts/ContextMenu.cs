@@ -25,6 +25,11 @@ public class ContextMenu : MonoBehaviour
     {
         if(ContextMenuenabled)
         {
+            UIManager.instance.toggle.gameObject.SetActive(activate);
+            UIManager.instance.destroybutton.gameObject.SetActive(destroy);
+            UIManager.instance.followbutton.gameObject.SetActive(follow);
+
+
             UIManager.instance.toggle.isOn = activate_on;
             UIManager.instance.CreateContextMenu();
             isopen = true;
