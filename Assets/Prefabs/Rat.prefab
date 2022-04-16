@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4868238222388797359}
   - component: {fileID: 4868238222388797352}
+  - component: {fileID: 4493544760355844384}
   - component: {fileID: 4868238222388797354}
   - component: {fileID: 4868238222388797355}
+  - component: {fileID: 6279593907357637281}
   m_Layer: 0
   m_Name: Rat
   m_TagString: Untagged
@@ -46,6 +48,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27dfa06ba153c844900be12903be717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4493544760355844384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4868238222388797332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba346ae0238f314494865d96d8832d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ContextMenuenabled: 1
+  isopen: 0
+  activate: 1
+  activate_on: 0
+  destroy: 1
+  destroy_on: 0
+  follow: 1
+  follow_on: 0
 --- !u!114 &4868238222388797354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +138,22 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
+--- !u!58 &6279593907357637281
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4868238222388797332}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.08
 --- !u!1 &6096266297096285999
 GameObject:
   m_ObjectHideFlags: 0

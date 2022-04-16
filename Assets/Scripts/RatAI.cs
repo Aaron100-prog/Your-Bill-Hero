@@ -18,7 +18,11 @@ public class RatAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        ContextMenu context = GetComponent<ContextMenu>();
+        if(context.destroy_on)
+        {
+            Destroy(gameObject);
+        }
     }
     private Vector3 RandomPosition()
     {
