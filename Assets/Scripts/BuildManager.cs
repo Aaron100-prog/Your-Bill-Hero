@@ -31,8 +31,4 @@ public class BuildManager : MonoBehaviour
     {
         Tasks.Remove(new BuildTask(taskinitiator, false));
     }
-    void Update()
-    {
-        Debug.Log(Tasks.Count);
-    }
 }

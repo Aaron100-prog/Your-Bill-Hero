@@ -6,7 +6,7 @@ public class Obj_Bonfire : MonoBehaviour
 {
 
     private bool lit = false;
-    private bool build = false;
+    private bool build = true;
     private bool routinerunning = false;
     public Sprite unlitsprite;
     public Sprite litsprite1;
@@ -15,12 +15,15 @@ public class Obj_Bonfire : MonoBehaviour
     SpriteRenderer Renderer;
     ContextMenu contextMenu;
     BuildTaskCreator taskcreator;
+    ParticleSystem particle;
 
     void Start()
     {
         Renderer = GetComponent<SpriteRenderer>();
         contextMenu = GetComponent<ContextMenu>();
         taskcreator = GetComponent<BuildTaskCreator>();
+        particle = GetComponent<ParticleSystem>();
+        particle.Stop();
     }
     void Update()
     {
@@ -42,6 +45,7 @@ public class Obj_Bonfire : MonoBehaviour
             {
                 if (!routinerunning)
                 {
+                    particle.Play();
                     StartCoroutine(BurningAnim());
                 }
             }
@@ -49,6 +53,7 @@ public class Obj_Bonfire : MonoBehaviour
             {
                 if (routinerunning)
                 {
+                    particle.Stop();
                     StopCoroutine(BurningAnim());
                     routinerunning = false;
                 }
