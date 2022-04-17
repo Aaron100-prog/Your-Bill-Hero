@@ -6,7 +6,7 @@ public class Obj_Bonfire : MonoBehaviour
 {
 
     private bool lit = false;
-    private bool build = true;
+    private bool build = false;
     private bool routinerunning = false;
     public Sprite unlitsprite;
     public Sprite litsprite1;
@@ -14,11 +14,13 @@ public class Obj_Bonfire : MonoBehaviour
     public Sprite litsprite3;
     SpriteRenderer Renderer;
     ContextMenu contextMenu;
+    BuildTaskCreator taskcreator;
 
     void Start()
     {
         Renderer = GetComponent<SpriteRenderer>();
         contextMenu = GetComponent<ContextMenu>();
+        taskcreator = GetComponent<BuildTaskCreator>();
     }
     void Update()
     {
@@ -53,6 +55,21 @@ public class Obj_Bonfire : MonoBehaviour
                 Renderer.sprite = unlitsprite;
             }
         }
+        else
+        {
+            if(!taskcreator.taskcreated)
+            {
+                taskcreator.worktime = 10;
+                taskcreator.creatorenabled = true;
+            }
+            else
+            {
+                if(taskcreator.workdone)
+                {
+                    Finishedbuilding();
+                }
+            }
+        }
         
 
     }
@@ -72,11 +89,12 @@ public class Obj_Bonfire : MonoBehaviour
         TilemapManager.instance.AddAttraction((Vector2)transform.position, -5f, 5);
     }
 
-    public void Onfinishedbuilding()
+    public void Finishedbuilding()
     {
         Renderer.color = new Color(Renderer.color.r, Renderer.color.g, Renderer.color.b, 1);
         build = true;
         ContextMenu context = transform.GetComponent<ContextMenu>();
         context.ContextMenuenabled = true;
+        taskcreator.creatorenabled = false;
     }
 }
