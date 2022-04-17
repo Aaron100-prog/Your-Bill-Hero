@@ -29,6 +29,23 @@ public class BuildManager : MonoBehaviour
     }
     public void RemoveTask(BuildTaskCreator taskinitiator)
     {
-        Tasks.Remove(new BuildTask(taskinitiator, false));
+        Tasks.Remove(new BuildTask(taskinitiator, true));
+    }
+
+    public BuildTaskCreator GetTask()
+    {
+        bool foundatask = false;
+        BuildTaskCreator task;
+        for(int x = 0; x < Tasks.Count && !foundatask; x++)
+        {
+            if(!Tasks[x].taskinprogress)
+            {
+                task = Tasks[x].taskinitiator;
+                foundatask = true;
+                Tasks[x].taskinprogress = true;
+                return task;
+            }
+        }
+        return null;
     }
 }

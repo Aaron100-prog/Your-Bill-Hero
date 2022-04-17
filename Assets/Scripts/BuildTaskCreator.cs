@@ -10,8 +10,8 @@ public class BuildTaskCreator : MonoBehaviour
     public bool taskcreated = false;
 
     [HideInInspector]
-    public int worktime;
-    public int remainingworktime;
+    public float worktime;
+    public float remainingworktime;
     [HideInInspector]
     public bool resettime = false;
 

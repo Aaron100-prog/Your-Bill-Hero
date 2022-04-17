@@ -6,7 +6,7 @@ public class Obj_Bonfire : MonoBehaviour
 {
 
     private bool lit = false;
-    private bool build = true;
+    public bool build = false;
     private bool routinerunning = false;
     public Sprite unlitsprite;
     public Sprite litsprite1;
