@@ -9,6 +9,8 @@ public class UI_Uhrzeit : MonoBehaviour
     public int minuten;
     public int stunden = 8;
     public int tage = 1;
+    public int wochentag = 1;
+    private string[] tagwort = { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" };
 
     public TMPro.TMP_Text UITage;
     public TMPro.TMP_Text UIUhrzeit;
@@ -31,9 +33,14 @@ public class UI_Uhrzeit : MonoBehaviour
         {
             stunden = 0;
             tage += 1;
+            wochentag += 1;
+            if(wochentag == 8)
+            {
+                wochentag = 1;
+            }
         }
 
-        UITage.text = "Tag " + tage;
+        UITage.text = tagwort[wochentag-1] + " Tag " + tage;
         UIUhrzeit.text = string.Format("{0:00}:{1:00}", stunden, minuten);
     }
 }
