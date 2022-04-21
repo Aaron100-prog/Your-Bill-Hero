@@ -22,6 +22,11 @@ public class UIManager : MonoBehaviour
 
     private ContextMenu lastcontext;
 
+    public GameObject TaskPrefab;
+    public GameObject SliderContent;
+    private List<GameObject> paintedtasks = new List<GameObject>();
+    private List<BuildTask> lastpaintlist;
+
     void Awake()
     {
         if (instance == null)
@@ -61,6 +66,10 @@ public class UIManager : MonoBehaviour
                 }
                 
             }
+        }
+        if(BuildManager.instance.Tasks != lastpaintlist)
+        {
+            Repaintbuildlist();
         }
 
     }
@@ -104,6 +113,22 @@ public class UIManager : MonoBehaviour
             }
         }
         ContextItems.Clear();
+    }
+    public void Repaintbuildlist()
+    {
+        lastpaintlist.Clear();
+        lastpaintlist = BuildManager.instance.Tasks;
+        for(int x = 0; x < paintedtasks.Count; x++)
+        {
+            Destroy(paintedtasks[x]);
+        }
+        paintedtasks.Clear();
+        for(int x = 0; x < lastpaintlist.Count; x++)
+        {
+            GameObject newtask = Instantiate(TaskPrefab, Vector3.zero, Quaternion.identity.normalized, SliderContent.transform);
+            paintedtasks.Add(newtask);
+            newtask.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = lastpaintlist[x].taskinitiator.gameObject.name;
+        }
     }
 
 }

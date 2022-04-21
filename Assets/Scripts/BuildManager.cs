@@ -6,7 +6,7 @@ public class BuildManager : MonoBehaviour
 {
     public static BuildManager instance;
 
-    List<BuildTask> Tasks = new List<BuildTask>();
+    public List<BuildTask> Tasks = new List<BuildTask>();
 
     void Awake()
     {
