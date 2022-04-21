@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     public GameObject TaskPrefab;
     public GameObject SliderContent;
     private List<GameObject> paintedtasks = new List<GameObject>();
-    private List<BuildTask> lastpaintlist;
+    private List<BuildTask> lastpaintlist = new List<BuildTask>();
 
     void Awake()
     {
@@ -67,11 +67,10 @@ public class UIManager : MonoBehaviour
                 
             }
         }
-        if(BuildManager.instance.Tasks != lastpaintlist)
+        if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
         {
             Repaintbuildlist();
         }
-
     }
     public void ChangeTilemap()
     {
@@ -117,18 +116,45 @@ public class UIManager : MonoBehaviour
     public void Repaintbuildlist()
     {
         lastpaintlist.Clear();
-        lastpaintlist = BuildManager.instance.Tasks;
+        for(int x = 0; x < BuildManager.instance.Tasks.Count; x++)
+        {
+            lastpaintlist.Add(BuildManager.instance.Tasks[x]);
+        }
+        Debug.Log(lastpaintlist.Count);
         for(int x = 0; x < paintedtasks.Count; x++)
         {
             Destroy(paintedtasks[x]);
         }
         paintedtasks.Clear();
+        float yposition = 134;
         for(int x = 0; x < lastpaintlist.Count; x++)
         {
             GameObject newtask = Instantiate(TaskPrefab, Vector3.zero, Quaternion.identity.normalized, SliderContent.transform);
+            newtask.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, yposition, 0);
+            yposition -= 34;
             paintedtasks.Add(newtask);
-            newtask.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = lastpaintlist[x].taskinitiator.gameObject.name;
+            newtask.transform.Find("Panel").Find("Name").GetComponent<TMPro.TMP_Text>().text = lastpaintlist[x].taskinitiator.gameObject.name;
+            newtask.transform.Find("Panel").Find("Checkmark").gameObject.SetActive(lastpaintlist[x].taskinprogress);
         }
+    }
+
+    bool Comparelists(List<BuildTask> list1, List<BuildTask> list2)
+    {
+        if(list1.Count != list2.Count)
+        {
+            return false;
+        }
+        else
+        {
+            for(int i = 0; i < list1.Count; i++)
+            {
+                if(list1[i] != list2[i])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
