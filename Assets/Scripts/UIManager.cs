@@ -26,7 +26,6 @@ public class UIManager : MonoBehaviour
     public GameObject SliderContent;
     private List<GameObject> paintedtasks = new List<GameObject>();
     private List<BuildTask> lastpaintlist = new List<BuildTask>();
-    bool test = false;
 
     void Awake()
     {

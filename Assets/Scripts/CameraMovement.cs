@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -55,8 +56,11 @@ public class CameraMovement : MonoBehaviour
                 pos.x -= 2f * Time.deltaTime;
             }
             transform.position = pos;
-            float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
-            targetzoom = targetzoom - zoom;
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
+                targetzoom = targetzoom - zoom;
+            }
             if (targetzoom < 0.5f)
             {
                 targetzoom = 0.5f;
@@ -93,8 +97,11 @@ public class CameraMovement : MonoBehaviour
                 transform.position = new Vector3(Mathf.Lerp(transform.position.x, target_x, followsmooth * Time.deltaTime), Mathf.Lerp(transform.position.y, target_y, followsmooth * Time.deltaTime), transform.position.z);
                 //transform.position = Vector3.Lerp(transform.position, followtarget.transform.position, Time.deltaTime);
                 //
-                float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
-                targetzoom = targetzoom - zoom;
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
+                    targetzoom = targetzoom - zoom;
+                }
                 if (targetzoom < 0.5f)
                 {
                     targetzoom = 0.5f;
