@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildTask : MonoBehaviour
+public class BuildTask : Object
 {
     public BuildTaskCreator taskinitiator;
     public bool taskinprogress;
