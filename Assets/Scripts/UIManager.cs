@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject NonContextMenu;
+
     public TMPro.TMP_Dropdown TilemapDropdown;
 
     public GameObject Tilemap1;

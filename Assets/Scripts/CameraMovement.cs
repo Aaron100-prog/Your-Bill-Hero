@@ -36,7 +36,26 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!following)
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
+            targetzoom = targetzoom - zoom;
+        }
+        if (targetzoom < 0.5f)
+        {
+            targetzoom = 0.5f;
+        }
+        if (targetzoom > 20)
+        {
+            targetzoom = 20;
+        }
+        camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, targetzoom, Time.deltaTime * 7.5f);
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            UIManager.instance.NonContextMenu.SetActive(!UIManager.instance.NonContextMenu.activeSelf);
+        }
+
+        if (!following)
         {
             Vector3 pos = transform.position;
             if (Input.GetKey(KeyCode.W))
@@ -56,20 +75,6 @@ public class CameraMovement : MonoBehaviour
                 pos.x -= 2f * Time.deltaTime;
             }
             transform.position = pos;
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
-                targetzoom = targetzoom - zoom;
-            }
-            if (targetzoom < 0.5f)
-            {
-                targetzoom = 0.5f;
-            }
-            if (targetzoom > 20)
-            {
-                targetzoom = 20;
-            }
-            camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, targetzoom, Time.deltaTime * 7.5f);
 
 
             if (Input.GetMouseButtonDown(2))
@@ -96,21 +101,6 @@ public class CameraMovement : MonoBehaviour
                 float target_y = followtarget.transform.position.y;
                 transform.position = new Vector3(Mathf.Lerp(transform.position.x, target_x, followsmooth * Time.deltaTime), Mathf.Lerp(transform.position.y, target_y, followsmooth * Time.deltaTime), transform.position.z);
                 //transform.position = Vector3.Lerp(transform.position, followtarget.transform.position, Time.deltaTime);
-                //
-                if (!EventSystem.current.IsPointerOverGameObject())
-                {
-                    float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
-                    targetzoom = targetzoom - zoom;
-                }
-                if (targetzoom < 0.5f)
-                {
-                    targetzoom = 0.5f;
-                }
-                if (targetzoom > 20)
-                {
-                    targetzoom = 20;
-                }
-                camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, targetzoom, Time.deltaTime * 7.5f);
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
