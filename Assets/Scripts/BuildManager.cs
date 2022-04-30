@@ -43,6 +43,7 @@ public class BuildManager : MonoBehaviour
                 task = Tasks[x].taskinitiator;
                 foundatask = true;
                 Tasks[x].taskinprogress = true;
+                Debug.Log(Tasks[x].taskinprogress);
                 return task;
             }
         }

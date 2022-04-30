@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     public GameObject SliderContent;
     private List<GameObject> paintedtasks = new List<GameObject>();
     private List<BuildTask> lastpaintlist = new List<BuildTask>();
+    bool test = false;
 
     void Awake()
     {
@@ -67,10 +68,16 @@ public class UIManager : MonoBehaviour
                 
             }
         }
-        if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
+        //if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
+        //{
+            //Debug.Log(Comparelists(lastpaintlist, BuildManager.instance.Tasks));
+            Repaintbuildlist();
+            //test = true;
+        /*}
+        if(test)
         {
             Repaintbuildlist();
-        }
+        }*/
     }
     public void ChangeTilemap()
     {
@@ -120,14 +127,15 @@ public class UIManager : MonoBehaviour
         {
             lastpaintlist.Add(BuildManager.instance.Tasks[x]);
         }
-        Debug.Log(lastpaintlist.Count);
+        //Debug.Log(lastpaintlist.Count);
         for(int x = 0; x < paintedtasks.Count; x++)
         {
             Destroy(paintedtasks[x]);
         }
         paintedtasks.Clear();
         float yposition = 134;
-        for(int x = 0; x < lastpaintlist.Count; x++)
+
+        for (int x = 0; x < lastpaintlist.Count; x++)
         {
             GameObject newtask = Instantiate(TaskPrefab, Vector3.zero, Quaternion.identity.normalized, SliderContent.transform);
             newtask.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, yposition, 0);
@@ -138,7 +146,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    bool Comparelists(List<BuildTask> list1, List<BuildTask> list2)
+    /*bool Comparelists(List<BuildTask> list1, List<BuildTask> list2)
     {
         if(list1.Count != list2.Count)
         {
@@ -148,13 +156,17 @@ public class UIManager : MonoBehaviour
         {
             for(int i = 0; i < list1.Count; i++)
             {
-                if(list1[i] != list2[i])
+                if(list1[i].taskinitiator != list2[i].taskinitiator)
+                {
+                    return false;
+                }
+                if (list1[i].taskinprogress != list2[i].taskinprogress)
                 {
                     return false;
                 }
             }
         }
         return true;
-    }
+    }*/
 
 }
