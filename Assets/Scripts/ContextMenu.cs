@@ -9,9 +9,10 @@ public class ContextMenu : MonoBehaviour
     public bool isopen = false;
 
     //activate
-    public bool activate;
+    public bool toggle;
     [HideInInspector]
-    public bool activate_on = false;
+    public bool toggle_on = false;
+    public string toggletext;
     //destroy
     public bool destroy;
     [HideInInspector]
@@ -25,12 +26,19 @@ public class ContextMenu : MonoBehaviour
     {
         if(ContextMenuenabled)
         {
-            UIManager.instance.toggle.gameObject.SetActive(activate);
+            UIManager.instance.toggle.gameObject.SetActive(toggle);
             UIManager.instance.destroybutton.gameObject.SetActive(destroy);
             UIManager.instance.followbutton.gameObject.SetActive(follow);
 
-
-            UIManager.instance.toggle.isOn = activate_on;
+            UIManager.instance.toggle.isOn = toggle_on;
+            if(toggletext == null || toggletext == string.Empty)
+            {
+                UIManager.instance.ToggleText.text = "Activate";
+            }
+            else
+            {
+                UIManager.instance.ToggleText.text = toggletext;
+            }
             UIManager.instance.CreateContextMenu();
             isopen = true;
         }
@@ -39,9 +47,9 @@ public class ContextMenu : MonoBehaviour
     {
         if(isopen)
         {
-            if(activate)
+            if(toggle)
             {
-                activate_on = UIManager.instance.toggle.isOn;
+                toggle_on = UIManager.instance.toggle.isOn;
             }
             if(destroy)
             {

@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public List<GameObject> ContextItems;
     private float itemposition;
     public Toggle toggle;
+    public TMPro.TMP_Text ToggleText;
     public Button destroybutton;
     public Button followbutton;
 

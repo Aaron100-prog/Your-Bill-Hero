@@ -33,7 +33,7 @@ public class Obj_Bonfire : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            if(contextMenu.activate_on)
+            if(contextMenu.toggle_on)
             {
                 lit = true;
             }
