@@ -10,7 +10,7 @@ public class UI_Uhrzeit : MonoBehaviour
     public int stunden = 8;
     public int tage = 1;
     public int wochentag = 1;
-    private string[] tagwort = { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" };
+    private string[] tagwort = { "Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun" };
 
     public TMPro.TMP_Text UITage;
     public TMPro.TMP_Text UIUhrzeit;
