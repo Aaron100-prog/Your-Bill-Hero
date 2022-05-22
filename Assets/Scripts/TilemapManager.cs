@@ -195,7 +195,14 @@ public class TilemapManager : MonoBehaviour
 
             for (int i = 0; i < tilemapData.position.Count; i++)
             {
-                tilemap.SetTile(tilemapData.position[i], tiles.Find(t => t.name == tilemapData.tiles[i]).tile);
+                try
+                {
+                    tilemap.SetTile(tilemapData.position[i], tiles.Find(t => t.name == tilemapData.tiles[i]).tile);
+                }
+                catch (System.Exception)
+                {
+                    Debug.Log("Tile nicht gefunden!");
+                }
             }
 
             Debug.Log("Tilemap geladen!");
