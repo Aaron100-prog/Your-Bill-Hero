@@ -193,7 +193,11 @@ public class TilemapManager : MonoBehaviour
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(Application.dataPath + "/Saves/" + Savename + ".save", json);
 
-        Debug.Log("Tilemap gespeichert!");
+        if(Savename != "default")
+        {
+            Debug.Log("Tilemap gespeichert als '" + Savename + "'!");
+        }
+        
     }
     public void LoadTilemap(string Savename)
     {
@@ -217,11 +221,11 @@ public class TilemapManager : MonoBehaviour
                 }
             }
 
-            Debug.Log("Tilemap geladen!");
+            Debug.Log("Tilemap '" + Savename + "' geladen!");
         }
         else
         {
-            Debug.LogWarning("Kein Tilemap Save vorhanden!");
+            Debug.LogWarning("Kein Tilemap Save mit Namen '" + Savename + "' vorhanden!");
         }
     }
 }
