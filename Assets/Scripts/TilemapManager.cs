@@ -17,6 +17,7 @@ public class TilemapManager : MonoBehaviour
     private Toggle Debug_InputTileToggle;
     [SerializeField]
     private TMP_InputField Debug_InputTileID;
+    public ScriptableTile Failsafetile;
     public List<ScriptableTile> tiles = new List<ScriptableTile>();
 
     [Header("Attraction System")]
@@ -169,13 +170,23 @@ public class TilemapManager : MonoBehaviour
             for (int y = bounds.min.y; y < bounds.max.y; y++)
             {
                 TileBase tile = tilemap.GetTile(new Vector3Int(x, y, 0));
-                ScriptableTile tileid = tiles.Find(t => t.tile == tile);
-
-                if(tileid != null)
+                if(tile != null)
                 {
-                    data.tiles.Add(tileid.id);
-                    data.position.Add(new Vector3Int(x, y, 0));
+                    ScriptableTile tileid = tiles.Find(t => t.tile == tile);
+                    if (tileid != null)
+                    {
+                        data.tiles.Add(tileid.id);
+                        data.position.Add(new Vector3Int(x, y, 0));
+                    }
+                    else
+                    {
+                        data.tiles.Add(tile.name);
+                        data.position.Add(new Vector3Int(x, y, 0));
+                    }
                 }
+                
+
+                
             }
         }
         //In Datei speichern
@@ -201,7 +212,8 @@ public class TilemapManager : MonoBehaviour
                 }
                 catch (System.Exception)
                 {
-                    Debug.Log("Tile nicht gefunden!");
+                    Debug.LogWarning("Tile '" + tilemapData.tiles[i].ToString().ToUpper() + "' nicht gefunden!", this);
+                    tilemap.SetTile(tilemapData.position[i], Failsafetile.tile);
                 }
             }
 

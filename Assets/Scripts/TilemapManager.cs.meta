@@ -3,7 +3,13 @@ guid: e0ebe61e79a69374c9bf066b74dd2986
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tilemap: {instanceID: 0}
+  - Debug_InputTileToggle: {instanceID: 0}
+  - Debug_InputTileID: {instanceID: 0}
+  - Failsafetile: {fileID: 11400000, guid: 0ff735dec2a7ffd428e80a7df97c7f55, type: 2}
+  - AttractionTilemap: {instanceID: 0}
+  - PreviewTilemap: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
