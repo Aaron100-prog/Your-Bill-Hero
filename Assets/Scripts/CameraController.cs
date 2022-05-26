@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CameraMovement : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     private new Camera camera;
     private Vector3 letztemausposition;
@@ -13,7 +13,8 @@ public class CameraMovement : MonoBehaviour
     public GameObject followtarget;
     public float followsmooth = 2f;
     // Start is called before the first frame update
-    public static CameraMovement instance;
+
+    public static CameraController instance;
 
     void Awake()
     {
@@ -113,4 +114,6 @@ public class CameraMovement : MonoBehaviour
             }
         }
     }
+
+    
 }

@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
     private List<GameObject> paintedtasks = new List<GameObject>();
     private List<BuildTask> lastpaintlist = new List<BuildTask>();
 
+    private bool buildingenabled = false;
+    private GameObject objecttobuild;
+
     void Awake()
     {
         if (instance == null)
@@ -46,29 +49,45 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if(!EventSystem.current.IsPointerOverGameObject())
+            if (!buildingenabled)
             {
-                DeleteContextMenu();
-            }
-            if (hit.collider != null)
-            {
-                ContextMenu hitscript = hit.transform.gameObject.GetComponent<ContextMenu>();
-                //Überprüfen ob Objekt ein Context Menü besitzt und öffnen, ansonsten keine Interaktion
-                if(hitscript != null)
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    if(lastcontext != null)
-                    {
-                        lastcontext.isopen = false;
-                    }
-                    hitscript.OpenGUI();
-                    lastcontext = hitscript;
+                    DeleteContextMenu();
                 }
-                
+                if (hit.collider != null)
+                {
+                    ContextMenu hitscript = hit.transform.gameObject.GetComponent<ContextMenu>();
+                    //Überprüfen ob Objekt ein Context Menü besitzt und öffnen, ansonsten keine Interaktion
+                    if (hitscript != null)
+                    {
+                        if (lastcontext != null)
+                        {
+                            lastcontext.isopen = false;
+                        }
+                        hitscript.OpenGUI();
+                        lastcontext = hitscript;
+                    }
+
+                }
             }
+            else
+            {
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    Instantiate(objecttobuild, new Vector3(mousePos2D.x, mousePos2D.y, 0.5f), Quaternion.identity.normalized);
+                }
+            }
+        }
+        if(Input.GetMouseButtonDown(1) && buildingenabled)
+        {
+            buildingenabled = false;
+            objecttobuild = null;
         }
         //if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
         //{
@@ -145,6 +164,21 @@ public class UIManager : MonoBehaviour
             paintedtasks.Add(newtask);
             newtask.transform.Find("Panel").Find("Name").GetComponent<TMPro.TMP_Text>().text = lastpaintlist[x].taskinitiator.gameObject.name;
             newtask.transform.Find("Panel").Find("Checkmark").gameObject.SetActive(lastpaintlist[x].taskinprogress);
+        }
+    }
+
+    public void Activatebuildmode(string selectedobject)
+    {
+        
+        objecttobuild = Objects.instance.ReturnObjectbyString(selectedobject);
+        if (objecttobuild == null)
+        {
+            buildingenabled = false;
+        }
+        else
+        {
+            buildingenabled = true;
+            DeleteContextMenu();
         }
     }
 

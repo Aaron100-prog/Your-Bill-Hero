@@ -68,7 +68,7 @@ public class ContextMenu : MonoBehaviour
     }
     private void OnClickFollow()
     {
-        CameraMovement.instance.followtarget = gameObject;
-        CameraMovement.instance.following = true;
+        CameraController.instance.followtarget = gameObject;
+        CameraController.instance.following = true;
     }
 }
