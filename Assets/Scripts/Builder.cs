@@ -18,40 +18,39 @@ public class Builder : MonoBehaviour
     {
         if(task == null)
         {
+            AI.destination = transform.position;
+            hasreacheddest = false;
             task = BuildManager.instance.GetTask();
         }
         else
         {
-            if(!task.gameObject.activeInHierarchy)
-            {
-                hasreacheddest = false;
-                task = null;
-            }
-            if (!hasreacheddest)
-            {
-                AI.destination = task.transform.position;
+                if (!hasreacheddest)
+                {
+                    AI.destination = task.transform.position;
 
-                if (Vector3.Distance(transform.position, AI.destination) < 2f)
-                {
-                    hasreacheddest = true;
-                    AI.destination = transform.position;
-                }
-            }
-            else
-            {
-                if (task.remainingworktime > 0)
-                {
-                    task.remainingworktime -= 5 * Time.deltaTime;
+                    if (Vector3.Distance(transform.position, AI.destination) < 2f)
+                    {
+                        hasreacheddest = true;
+                        AI.destination = transform.position;
+                    }
                 }
                 else
                 {
-                    task.workdone = true;
-                    BuildManager.instance.RemoveTask(task);
-                    hasreacheddest = false;
-                    task = null;
-                }
+                    if (task.remainingworktime > 0)
+                    {
+                        task.remainingworktime -= 5 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        task.workdone = true;
+                        BuildManager.instance.RemoveTask(task);
+                        hasreacheddest = false;
+                        task = null;
+                    }
 
-            }
+                }
+            
+            
         }
         
 
