@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 11400000, guid: 49796f46fd1b5ef49a8e0651683df0e3, type: 2}
   id: gras
-  reqworktime: 5
+  reqworktime: 3
   buildcost: 0
+  canbebuild: 1

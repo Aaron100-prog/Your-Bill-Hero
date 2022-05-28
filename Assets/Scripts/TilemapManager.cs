@@ -32,7 +32,7 @@ public class TilemapManager : MonoBehaviour
     private Color normalattractioncolor;
     [Header("Preview System")]
     [SerializeField]
-    private Tilemap PreviewTilemap;
+    public Tilemap PreviewTilemap;
     private Vector3Int lastposition;
     public static TilemapManager instance;
 

@@ -31,8 +31,13 @@ public class UIManager : MonoBehaviour
     private List<BuildTask> lastpaintlist = new List<BuildTask>();
 
     private bool buildingenabled = false;
+    private bool Tileenabled = false;
     private GameObject objecttobuild;
     private GameObject PreviewObject;
+    public GameObject TilePlacerObject;
+    private ScriptableTile Tiletobuild;
+    private Vector3Int lastposition;
+
     public Toggle Snaptoggle;
 
     void Awake()
@@ -65,6 +70,18 @@ public class UIManager : MonoBehaviour
             }
             
         }
+        else if(Tileenabled)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+            Vector3Int Gridpos = TilemapManager.instance.PreviewTilemap.WorldToCell(mousePos2D);
+            if(Gridpos != lastposition)
+            {
+                TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, Tiletobuild.tile);
+                TilemapManager.instance.PreviewTilemap.SetTile(lastposition, null);
+                lastposition = Gridpos;
+            }
+        }
         if (Input.GetMouseButtonDown(0))
         {
             
@@ -72,7 +89,7 @@ public class UIManager : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if (!buildingenabled)
+            if (!buildingenabled && !Tileenabled)
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
@@ -94,11 +111,11 @@ public class UIManager : MonoBehaviour
 
                 }
             }
-            else
+            else if (buildingenabled)
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    if(Snaptoggle.isOn)
+                    if (Snaptoggle.isOn)
                     {
                         Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
                         Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
@@ -110,6 +127,16 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+                    Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
+                    GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                    buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                }
+            }
         }
         if(Input.GetMouseButtonDown(1) && buildingenabled)
         {
@@ -117,6 +144,16 @@ public class UIManager : MonoBehaviour
             Destroy(PreviewObject);
             PreviewObject = null;
             objecttobuild = null;
+        }
+        else if(Input.GetMouseButtonDown(1) && Tileenabled)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+            Vector3Int Gridpos = TilemapManager.instance.PreviewTilemap.WorldToCell(mousePos2D);
+            TilemapManager.instance.PreviewTilemap.SetTile(lastposition, null);
+            TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, null);
+            Tileenabled = false;
+            Tiletobuild = null;
         }
         //if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
         //{
@@ -212,6 +249,19 @@ public class UIManager : MonoBehaviour
 
         PreviewObject = Instantiate(Objects.instance.PreviewObjectPrefab, Vector3.zero, Quaternion.identity.normalized);
         PreviewObject.GetComponent<SpriteRenderer>().sprite = Objects.instance.GetSpritebyString(selectedobject);
+    }
+    public void ActivateTilemode(string selectedtile)
+    {
+        Tiletobuild = Tiles.instance.GetScriptTilebyString(selectedtile);
+        if (Tiletobuild == null)
+        {
+            Tileenabled = false;
+        }
+        else
+        {
+            Tileenabled = true;
+            DeleteContextMenu();
+        }
     }
 
     /*bool Comparelists(List<BuildTask> list1, List<BuildTask> list2)

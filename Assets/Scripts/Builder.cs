@@ -22,6 +22,11 @@ public class Builder : MonoBehaviour
         }
         else
         {
+            if(!task.gameObject.activeInHierarchy)
+            {
+                hasreacheddest = false;
+                task = null;
+            }
             if (!hasreacheddest)
             {
                 AI.destination = task.transform.position;

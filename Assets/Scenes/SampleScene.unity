@@ -2208,7 +2208,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 199248733}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 932238507}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ActivateTilemode
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: woodenfloor
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &199248733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116274,6 +116286,7 @@ MonoBehaviour:
   followbutton: {fileID: 460773733}
   TaskPrefab: {fileID: 1164751273531685171, guid: f9ac526f8186a314195a107a0f372f47, type: 3}
   SliderContent: {fileID: 424664212}
+  TilePlacerObject: {fileID: 3272612151368566965, guid: 51f1722ab96acb549a63c5827ef17f5c, type: 3}
   Snaptoggle: {fileID: 2051284951}
 --- !u!1 &963194225
 GameObject:
@@ -127288,7 +127301,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1607834095}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 932238507}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ActivateTilemode
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: gras
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1607834095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129313,6 +129338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tilelist:
   - {fileID: 11400000, guid: a923b47d554af194cb8735ec8fed08e9, type: 2}
+  - {fileID: 11400000, guid: fd044f008a2c0e249a131ded22510568, type: 2}
 --- !u!1 &2012895196
 GameObject:
   m_ObjectHideFlags: 0
