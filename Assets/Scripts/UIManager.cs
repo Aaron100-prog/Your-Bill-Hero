@@ -222,7 +222,7 @@ public class UIManager : MonoBehaviour
                 Destroy(BuildManager.instance.Tasks[x]);
             }
         }
-        Debug.Log(lastpaintlist.Count);
+        //Debug.Log(lastpaintlist.Count);
         for(int x = 0; x < paintedtasks.Count; x++)
         {
             Destroy(paintedtasks[x]);
@@ -243,7 +243,19 @@ public class UIManager : MonoBehaviour
 
     public void Activatebuildmode(string selectedobject)
     {
-        
+        buildingenabled = false;
+        Destroy(PreviewObject);
+        PreviewObject = null;
+        objecttobuild = null;
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+        Vector3Int Gridpos = TilemapManager.instance.PreviewTilemap.WorldToCell(mousePos2D);
+        TilemapManager.instance.PreviewTilemap.SetTile(lastposition, null);
+        TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, null);
+        Tileenabled = false;
+        Tiletobuild = null;
+
         objecttobuild = Objects.instance.GetObjectbyString(selectedobject);
         if (objecttobuild == null)
         {
@@ -260,6 +272,11 @@ public class UIManager : MonoBehaviour
     }
     public void ActivateTilemode(string selectedtile)
     {
+        buildingenabled = false;
+        Destroy(PreviewObject);
+        PreviewObject = null;
+        objecttobuild = null;
+
         Tiletobuild = Tiles.instance.GetScriptTilebyString(selectedtile);
         if (Tiletobuild == null)
         {
