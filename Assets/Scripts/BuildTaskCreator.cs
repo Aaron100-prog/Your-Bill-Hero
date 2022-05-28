@@ -30,13 +30,5 @@ public class BuildTaskCreator : MonoBehaviour
                 taskcreated = true;
             }
         }
-    }
-    void OnDestroy()
-    {
-        if (taskcreated)
-        {
-            BuildManager.instance.RemoveTask(this);
-        }
-    }
-        
+    }     
 }

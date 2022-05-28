@@ -9,7 +9,6 @@ public class TilePlacerObject : MonoBehaviour
     //SpriteRenderer Renderer;
     ContextMenu contextMenu;
     BuildTaskCreator taskcreator;
-    ParticleSystem particle;
 
     [HideInInspector]
     public ScriptableTile Tiletobuild;
@@ -23,18 +22,13 @@ public class TilePlacerObject : MonoBehaviour
 
     void Update()
     {
-        if(contextMenu.destroy_on)
-        {
-            Vector3Int gridpos = TilemapManager.instance.tilemap.WorldToCell(transform.position);
-            TilemapManager.instance.PreviewTilemap.SetTile(gridpos, null);
-            Destroy(this);
-        }
-        if(build)
+        
+        if (build)
         {
             Vector3Int gridpos = TilemapManager.instance.tilemap.WorldToCell(transform.position);
             TilemapManager.instance.tilemap.SetTile(gridpos, Tiletobuild.tile);
             TilemapManager.instance.PreviewTilemap.SetTile(gridpos, null);
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
@@ -53,5 +47,12 @@ public class TilePlacerObject : MonoBehaviour
                 }
             }
         }
+        if (contextMenu.destroy_on)
+        {
+            Vector3Int gridpos = TilemapManager.instance.tilemap.WorldToCell(transform.position);
+            TilemapManager.instance.PreviewTilemap.SetTile(gridpos, null);
+            Destroy(gameObject);
+        }
+
     }
 }
