@@ -212,9 +212,17 @@ public class UIManager : MonoBehaviour
         lastpaintlist.Clear();
         for(int x = 0; x < BuildManager.instance.Tasks.Count; x++)
         {
-            lastpaintlist.Add(BuildManager.instance.Tasks[x]);
+            if(BuildManager.instance.Tasks[x].taskinitiator != null && !BuildManager.instance.Tasks[x].taskinitiator.workdone)
+            {
+                lastpaintlist.Add(BuildManager.instance.Tasks[x]);
+            }
+            else
+            {
+                //BuildManager.instance.RemoveTask(BuildManager.instance.Tasks[x].taskinitiator);
+                Destroy(BuildManager.instance.Tasks[x]);
+            }
         }
-        //Debug.Log(lastpaintlist.Count);
+        Debug.Log(lastpaintlist.Count);
         for(int x = 0; x < paintedtasks.Count; x++)
         {
             Destroy(paintedtasks[x]);
