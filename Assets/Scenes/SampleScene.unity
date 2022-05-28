@@ -129141,6 +129141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc73eb265416d34080699026d7b8691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviewObjectPrefab: {fileID: 5924610463649207593, guid: 47e2adce807f77b4dad0f297c7518a25, type: 3}
   PrefabObjectslist:
   - {fileID: 6252547848384577951, guid: 7c62eeaf32638ea488fc583a57370afc, type: 3}
 --- !u!1 &2012895196

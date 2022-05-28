@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
 
     private bool buildingenabled = false;
     private GameObject objecttobuild;
+    private GameObject PreviewObject;
 
     void Awake()
     {
@@ -47,6 +48,13 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        if(buildingenabled)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            PreviewObject.transform.position = new Vector3(mousePos2D.x, mousePos2D.y, 0);
+        }
         if (Input.GetMouseButtonDown(0))
         {
             
@@ -87,6 +95,8 @@ public class UIManager : MonoBehaviour
         if(Input.GetMouseButtonDown(1) && buildingenabled)
         {
             buildingenabled = false;
+            Destroy(PreviewObject);
+            PreviewObject = null;
             objecttobuild = null;
         }
         //if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
@@ -170,7 +180,7 @@ public class UIManager : MonoBehaviour
     public void Activatebuildmode(string selectedobject)
     {
         
-        objecttobuild = Objects.instance.ReturnObjectbyString(selectedobject);
+        objecttobuild = Objects.instance.GetObjectbyString(selectedobject);
         if (objecttobuild == null)
         {
             buildingenabled = false;
@@ -180,6 +190,9 @@ public class UIManager : MonoBehaviour
             buildingenabled = true;
             DeleteContextMenu();
         }
+
+        PreviewObject = Instantiate(Objects.instance.PreviewObjectPrefab, Vector3.zero, Quaternion.identity.normalized);
+        PreviewObject.GetComponent<SpriteRenderer>().sprite = Objects.instance.GetSpritebyString(selectedobject);
     }
 
     /*bool Comparelists(List<BuildTask> list1, List<BuildTask> list2)
