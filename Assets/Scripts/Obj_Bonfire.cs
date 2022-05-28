@@ -62,6 +62,10 @@ public class Obj_Bonfire : MonoBehaviour
         }
         else
         {
+            if(contextMenu.destroy_on)
+            {
+                Destroy(gameObject);
+            }
             if(!taskcreator.taskcreated)
             {
                 taskcreator.worktime = 10;
@@ -99,7 +103,7 @@ public class Obj_Bonfire : MonoBehaviour
         Renderer.color = new Color(Renderer.color.r, Renderer.color.g, Renderer.color.b, 1);
         build = true;
         ContextMenu context = transform.GetComponent<ContextMenu>();
-        context.ContextMenuenabled = true;
+        context.toggle = true;
         taskcreator.creatorenabled = false;
     }
 }

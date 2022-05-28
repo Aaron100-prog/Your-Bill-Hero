@@ -4851,9 +4851,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba346ae0238f314494865d96d8832d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ContextMenuenabled: 0
+  ContextMenuenabled: 1
   isopen: 0
-  toggle: 1
+  toggle: 0
   toggle_on: 0
   toggletext: 
   destroy: 1
