@@ -10,7 +10,7 @@ using System.IO;
 public class TilemapManager : MonoBehaviour
 {
     [SerializeField]
-    private Tilemap tilemap;
+    public Tilemap tilemap;
     [SerializeField]
     private TileBase[] Tiles;
     [SerializeField]

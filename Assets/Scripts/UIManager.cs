@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     private bool buildingenabled = false;
     private GameObject objecttobuild;
     private GameObject PreviewObject;
+    public Toggle Snaptoggle;
 
     void Awake()
     {
@@ -52,8 +53,17 @@ public class UIManager : MonoBehaviour
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-            PreviewObject.transform.position = new Vector3(mousePos2D.x, mousePos2D.y, 0);
+            if (Snaptoggle.isOn)
+            {
+                Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+                Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
+                PreviewObject.transform.position = new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0);
+            }
+            else
+            {
+                PreviewObject.transform.position = new Vector3(mousePos2D.x, mousePos2D.y, 0);
+            }
+            
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -88,7 +98,16 @@ public class UIManager : MonoBehaviour
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    Instantiate(objecttobuild, new Vector3(mousePos2D.x, mousePos2D.y, 0.5f), Quaternion.identity.normalized);
+                    if(Snaptoggle.isOn)
+                    {
+                        Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+                        Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
+                        Instantiate(objecttobuild, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                    }
+                    else
+                    {
+                        Instantiate(objecttobuild, new Vector3(mousePos2D.x, mousePos2D.y, 0.5f), Quaternion.identity.normalized);
+                    }
                 }
             }
         }
