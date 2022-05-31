@@ -37,6 +37,8 @@ public class UIManager : MonoBehaviour
     public GameObject TilePlacerObject;
     private ScriptableTile Tiletobuild;
     private Vector3Int lastposition;
+    private bool lastmousetiledraw = false;
+    private Vector3Int ActivatedDrawonpos;
 
     public Toggle Snaptoggle;
 
@@ -82,78 +84,196 @@ public class UIManager : MonoBehaviour
                 lastposition = Gridpos;
             }
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !buildingenabled && !Tileenabled)
         {
             
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if (!buildingenabled && !Tileenabled)
-            {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
                     DeleteContextMenu();
                 }
-                if (hit.collider != null)
+            if (hit.collider != null)
+            {
+                ContextMenu hitscript = hit.transform.gameObject.GetComponent<ContextMenu>();
+                //Überprüfen ob Objekt ein Context Menü besitzt und öffnen, ansonsten keine Interaktion
+                if (hitscript != null)
                 {
-                    ContextMenu hitscript = hit.transform.gameObject.GetComponent<ContextMenu>();
-                    //Überprüfen ob Objekt ein Context Menü besitzt und öffnen, ansonsten keine Interaktion
-                    if (hitscript != null)
+                    if (lastcontext != null)
                     {
-                        if (lastcontext != null)
-                        {
-                            lastcontext.isopen = false;
-                        }
-                        hitscript.OpenGUI();
-                        lastcontext = hitscript;
+                        lastcontext.isopen = false;
                     }
+                    hitscript.OpenGUI();
+                    lastcontext = hitscript;
+                }
 
-                }
             }
-            else if (buildingenabled)
-            {
-                if (!EventSystem.current.IsPointerOverGameObject())
-                {
-                    if (Snaptoggle.isOn)
-                    {
-                        Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
-                        Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
-                        Instantiate(objecttobuild, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
-                    }
-                    else
-                    {
-                        Instantiate(objecttobuild, new Vector3(mousePos2D.x, mousePos2D.y, 0.5f), Quaternion.identity.normalized);
-                    }
-                }
-            }
-            else
-            {
-                if (!EventSystem.current.IsPointerOverGameObject())
-                {
-                    Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
-                    Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
-                    GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
-                    buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
-                }
-            }
-        }
-        if(Input.GetMouseButtonDown(1) && buildingenabled)
-        {
-            buildingenabled = false;
-            Destroy(PreviewObject);
-            PreviewObject = null;
-            objecttobuild = null;
-        }
-        else if(Input.GetMouseButtonDown(1) && Tileenabled)
+         }
+        if (Input.GetMouseButtonDown(0) && buildingenabled)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-            Vector3Int Gridpos = TilemapManager.instance.PreviewTilemap.WorldToCell(mousePos2D);
-            TilemapManager.instance.PreviewTilemap.SetTile(lastposition, null);
-            TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, null);
-            Tileenabled = false;
-            Tiletobuild = null;
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (Snaptoggle.isOn)
+                {
+                    Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+                    Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
+                    Instantiate(objecttobuild, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                }
+                else
+                {
+                    Instantiate(objecttobuild, new Vector3(mousePos2D.x, mousePos2D.y, 0.5f), Quaternion.identity.normalized);
+                }
+            }
+        }
+        if (Tileenabled)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if(Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log(Gridpos);
+                    ActivatedDrawonpos = Gridpos;
+                    lastmousetiledraw = true;
+                }
+            }
+
+            if(Input.GetMouseButtonUp(0) && lastmousetiledraw)
+            {
+                Debug.Log(Gridpos);
+                if(ActivatedDrawonpos.x < Gridpos.x)
+                {
+                    for(int x = ActivatedDrawonpos.x; x <= Gridpos.x; x++)
+                    {
+                        if (ActivatedDrawonpos.y < Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y <= Gridpos.y; y++)
+                            {
+                                Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(x, y, 0));
+                                GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                                buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                            }
+                        }
+                        else if (ActivatedDrawonpos.y > Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y >= Gridpos.y; y--)
+                            {
+                                Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(x, y, 0));
+                                GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                                buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                            }
+                        }
+                        else
+                        {
+                            Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(x, Gridpos.y, 0));
+                            GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                            buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                        }
+                    }
+                }
+                else if(ActivatedDrawonpos.x > Gridpos.x)
+                {
+                    for (int x = ActivatedDrawonpos.x; x >= Gridpos.x; x--)
+                    {
+                        if (ActivatedDrawonpos.y < Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y <= Gridpos.y; y++)
+                            {
+                                Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(x, y, 0));
+                                GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                                buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                            }
+                        }
+                        else if (ActivatedDrawonpos.y > Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y >= Gridpos.y; y--)
+                            {
+                                Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(x, y, 0));
+                                GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                                buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                            }
+                        }
+                        else
+                        {
+                            Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(x, Gridpos.y, 0));
+                            GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                            buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                        }
+                    }
+                }
+                else
+                {
+                    if (ActivatedDrawonpos.y < Gridpos.y)
+                    {
+                        for (int y = ActivatedDrawonpos.y; y <= Gridpos.y; y++)
+                        {
+                            Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(Gridpos.x, y, 0));
+                            GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                            buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                        }
+                    }
+                    else if (ActivatedDrawonpos.y > Gridpos.y)
+                    {
+                        for (int y = ActivatedDrawonpos.y; y >= Gridpos.y; y--)
+                        {
+                            Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int(Gridpos.x, y, 0));
+                            GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                            buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                        }
+                    }
+                    else
+                    {
+                        Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(new Vector3Int( Gridpos.x, Gridpos.y,0));
+                        GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                        buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                    }
+                }
+                lastmousetiledraw = false;
+            }
+                /*
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+                RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                        Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+                        Vector3 ConvertetWorldpos = TilemapManager.instance.tilemap.CellToWorld(Gridpos);
+                        GameObject buildtile = Instantiate(TilePlacerObject, new Vector3(ConvertetWorldpos.x + 0.5f, ConvertetWorldpos.y + 0.5f, 0.5f), Quaternion.identity.normalized);
+                        buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
+                }
+                */
+            }
+        if(Input.GetMouseButtonDown(1) && buildingenabled)
+        {
+                buildingenabled = false;
+                Destroy(PreviewObject);
+                PreviewObject = null;
+                objecttobuild = null;
+            
+        }
+        else if(Input.GetMouseButtonDown(1) && Tileenabled)
+        {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+                Vector3Int Gridpos = TilemapManager.instance.PreviewTilemap.WorldToCell(mousePos2D);
+                TilemapManager.instance.PreviewTilemap.SetTile(lastposition, null);
+                TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, null);
+                Tileenabled = false;
+                Tiletobuild = null;
+            
+            
         }
         //if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
         //{
