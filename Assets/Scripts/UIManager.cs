@@ -149,6 +149,80 @@ public class UIManager : MonoBehaviour
                 }
             }
 
+            if(lastmousetiledraw)
+            {
+                TilemapManager.instance.ClearPreviewTilemap();
+                if (ActivatedDrawonpos.x < Gridpos.x)
+                {
+                    for (int x = ActivatedDrawonpos.x; x <= Gridpos.x; x++)
+                    {
+                        if (ActivatedDrawonpos.y < Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y <= Gridpos.y; y++)
+                            {
+                                TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(x, y, 0), Tiletobuild.tile);
+                            }
+                        }
+                        else if (ActivatedDrawonpos.y > Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y >= Gridpos.y; y--)
+                            {
+                                TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(x, y, 0), Tiletobuild.tile);
+                            }
+                        }
+                        else
+                        {
+                            TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(x, Gridpos.y, 0), Tiletobuild.tile);
+                        }
+                    }
+                }
+                else if (ActivatedDrawonpos.x > Gridpos.x)
+                {
+                    for (int x = ActivatedDrawonpos.x; x >= Gridpos.x; x--)
+                    {
+                        if (ActivatedDrawonpos.y < Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y <= Gridpos.y; y++)
+                            {
+                                TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(x, y, 0), Tiletobuild.tile);
+                            }
+                        }
+                        else if (ActivatedDrawonpos.y > Gridpos.y)
+                        {
+                            for (int y = ActivatedDrawonpos.y; y >= Gridpos.y; y--)
+                            {
+                                TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(x, y, 0), Tiletobuild.tile);
+                            }
+                        }
+                        else
+                        {
+                            TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(x, Gridpos.y, 0), Tiletobuild.tile);
+                        }
+                    }
+                }
+                else
+                {
+                    if (ActivatedDrawonpos.y < Gridpos.y)
+                    {
+                        for (int y = ActivatedDrawonpos.y; y <= Gridpos.y; y++)
+                        {
+                            TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(Gridpos.x, y, 0), Tiletobuild.tile);
+                        }
+                    }
+                    else if (ActivatedDrawonpos.y > Gridpos.y)
+                    {
+                        for (int y = ActivatedDrawonpos.y; y >= Gridpos.y; y--)
+                        {
+                            TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(Gridpos.x, y, 0), Tiletobuild.tile);
+                        }
+                    }
+                    else
+                    {
+                        TilemapManager.instance.PreviewTilemap.SetTile(new Vector3Int(Gridpos.x, Gridpos.y, 0), Tiletobuild.tile);
+                    }
+                }
+            }
+
             if(Input.GetMouseButtonUp(0) && lastmousetiledraw)
             {
                 Debug.Log(Gridpos);
@@ -239,6 +313,7 @@ public class UIManager : MonoBehaviour
                         buildtile.GetComponent<TilePlacerObject>().Tiletobuild = Tiletobuild;
                     }
                 }
+                TilemapManager.instance.ClearPreviewTilemap();
                 lastmousetiledraw = false;
             }
                 /*
@@ -263,6 +338,19 @@ public class UIManager : MonoBehaviour
                 objecttobuild = null;
             
         }
+        else if(Input.GetMouseButtonDown(1) && lastmousetiledraw)
+        {
+            TilemapManager.instance.ClearPreviewTilemap();
+            lastmousetiledraw = false;
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            Vector3Int Gridpos = TilemapManager.instance.tilemap.WorldToCell(mousePos2D);
+
+            TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, Tiletobuild.tile);
+        }
         else if(Input.GetMouseButtonDown(1) && Tileenabled)
         {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -272,8 +360,8 @@ public class UIManager : MonoBehaviour
                 TilemapManager.instance.PreviewTilemap.SetTile(Gridpos, null);
                 Tileenabled = false;
                 Tiletobuild = null;
-            
-            
+                TilemapManager.instance.ClearPreviewTilemap();
+
         }
         //if(!Comparelists(lastpaintlist, BuildManager.instance.Tasks))
         //{
