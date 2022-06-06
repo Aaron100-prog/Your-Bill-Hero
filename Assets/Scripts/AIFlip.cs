@@ -6,6 +6,7 @@ using Pathfinding;
 public class AIFlip : MonoBehaviour
 {
     private AIPath aiPath;
+    private bool Override = false;
 
     void Start()
     {
@@ -13,13 +14,35 @@ public class AIFlip : MonoBehaviour
     }
     void Update()
     {
-        if(aiPath.desiredVelocity.x >= 0.01f)
+        if(!Override)
         {
-            transform.localScale = new Vector3(-1, 1f, 1f);
+            if (aiPath.desiredVelocity.x >= 0.01f)
+            {
+                transform.localScale = new Vector3(-1, 1f, 1f);
+            }
+            else if (aiPath.desiredVelocity.x <= 0.01f)
+            {
+                transform.localScale = new Vector3(1, 1f, 1f);
+            }
         }
-        else if(aiPath.desiredVelocity.x <= 0.01f)
+        
+    }
+
+    public void Overrideflip(bool right)
+    {
+        if(right)
         {
             transform.localScale = new Vector3(1, 1f, 1f);
         }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1f, 1f);
+        }
+        Override = true;
+    }
+
+    public void DisbleOverride()
+    {
+        Override = false;
     }
 }

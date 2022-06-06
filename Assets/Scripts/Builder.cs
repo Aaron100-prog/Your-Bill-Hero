@@ -9,10 +9,12 @@ public class Builder : MonoBehaviour
     private Vector3 taskpos;
     private bool hasreacheddest;
     IAstarAI AI;
+    AIFlip Flip;
 
     void Start()
     {
         AI = GetComponent<IAstarAI>();
+        Flip = GetComponentInChildren<AIFlip>();
     }
     void Update()
     {
@@ -36,6 +38,15 @@ public class Builder : MonoBehaviour
                 }
                 else
                 {
+                    if(AI.destination.x > transform.position.x)
+                    {
+                        Flip.Overrideflip(true);
+                    }
+                    else
+                    {
+                        Flip.Overrideflip(false);
+                    }
+                
                     if (task.remainingworktime > 0)
                     {
                         task.remainingworktime -= 5 * Time.deltaTime;
@@ -46,6 +57,7 @@ public class Builder : MonoBehaviour
                         BuildManager.instance.RemoveTask(task);
                         hasreacheddest = false;
                         task = null;
+                        Flip.DisbleOverride();
                     }
 
                 }
