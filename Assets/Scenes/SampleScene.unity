@@ -129894,6 +129894,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1959625836}
+  - component: {fileID: 1959625837}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -129919,6 +129920,20 @@ Transform:
   - {fileID: 1986807809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1959625837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959625835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7abb50bd8b09c974283ec5ff873ac5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxdifferentitems: 0
+  maxitems: 0
 --- !u!1 &1986807808
 GameObject:
   m_ObjectHideFlags: 0
@@ -131583,6 +131598,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   playercamera: {fileID: 97051188}
+  CharacterFrontSprite: {fileID: 21300000, guid: 808019ed8ec7efa44b6c99cc5e63a51c, type: 3}
+  CharacterBackSprite: {fileID: 21300000, guid: 3af49c1f1f40f744d8b59cb182e184f0, type: 3}
+  CharacterSpriteRenderer: {fileID: 6160490818603389879}
 --- !u!58 &6160490818860613425
 CircleCollider2D:
   m_ObjectHideFlags: 0

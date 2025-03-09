@@ -39,15 +39,16 @@ public class Treefruitspawner : MonoBehaviour
         currenttime = currenttime + Time.deltaTime;
         if (currenttime > timeuntilnext)
         {
-            SpawnApple();
+            Spawnfruit();
         }
     }
 
-    void SpawnApple()
+    void Spawnfruit()
     {
         if (currentfruits < maxfruits)
         {
-            Instantiate(fruitprefab, position: treecenter.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * Random.Range(minRadius, maxRadius), rotation: Quaternion.identity);
+            GameObject spawnedfruit = Instantiate(fruitprefab, position: treecenter.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * Random.Range(minRadius, maxRadius), rotation: Quaternion.identity);
+            spawnedfruit.GetComponent<fallenfruit>().origintree = this;
             currentfruits++;
             Debug.Log("Apfel gespawned");
         }

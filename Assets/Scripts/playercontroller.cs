@@ -9,6 +9,10 @@ public class playercontroller : MonoBehaviour
     public float speed = 2f;
     private float targetzoom = 5f;
     public Camera playercamera;
+
+    public Sprite CharacterFrontSprite;
+    public Sprite CharacterBackSprite;
+    public SpriteRenderer CharacterSpriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +35,16 @@ public class playercontroller : MonoBehaviour
         {
             transform.localScale = new Vector3(2, 2f, 1f);
         }
+
+        if (rb.velocity.y < 0)
+        {
+            CharacterSpriteRenderer.sprite = CharacterFrontSprite;
+        }
+        else if (rb.velocity.y > 0)
+        {
+            CharacterSpriteRenderer.sprite = CharacterBackSprite;
+        }
+
         //Run
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -47,9 +61,9 @@ public class playercontroller : MonoBehaviour
             float zoom = Input.GetAxis("Mouse ScrollWheel") * 5;
             targetzoom = targetzoom - zoom;
         }
-        if (targetzoom < 0.5f)
+        if (targetzoom < 2f)
         {
-            targetzoom = 1f;
+            targetzoom = 2f;
         }
         if (targetzoom > 20)
         {
@@ -74,6 +88,18 @@ public class playercontroller : MonoBehaviour
                     clickablescript.Click();
                 }
             }
+        }
+
+
+        //Debug
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log(InventoryStorageManager.instance.Personalinventoryentries.Count);
+            for (int i = 0; i < InventoryStorageManager.instance.Personalinventoryentries.Count; i++)
+            {
+                Debug.Log(InventoryStorageManager.instance.Personalinventoryentries[i].identifier + ": " + InventoryStorageManager.instance.Personalinventoryentries[i].amount);
+            }
+            
         }
     }
 }
