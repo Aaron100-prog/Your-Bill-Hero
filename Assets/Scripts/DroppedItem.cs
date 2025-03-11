@@ -7,11 +7,19 @@ public class fallenfruit : Clickable
     public string identifier;
     public AudioSource audioSource;
     public Treefruitspawner origintree;
-    public override void Click()
+    float maxpickupdistance = 3f;
+
+    public override void Click(bool inCharacterMode)
     {
-        audioSource.Play();
-        InventoryStorageManager.instance.AddItemtoPersonalinventory(identifier, 1);
-        origintree.currentfruits--;
-        Destroy(gameObject);
+        if (inCharacterMode)
+        {
+            if ((transform.position - playercontroller.instance.transform.position).magnitude < maxpickupdistance)
+            {
+                audioSource.Play();
+                InventoryStorageManager.instance.AddItemtoPersonalinventory(identifier, 1);
+                origintree.currentfruits--;
+                Destroy(gameObject);
+            }
+        }
     }
 }

@@ -85,7 +85,7 @@ public class playercontroller : MonoBehaviour
                 Debug.Log(clickablescript);
                 if (clickablescript != null)
                 {
-                    clickablescript.Click();
+                    clickablescript.Click(true);
                 }
             }
         }
@@ -100,6 +100,17 @@ public class playercontroller : MonoBehaviour
                 Debug.Log(InventoryStorageManager.instance.Personalinventoryentries[i].identifier + ": " + InventoryStorageManager.instance.Personalinventoryentries[i].amount);
             }
             
+        }
+    }
+
+
+    public static playercontroller instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
         }
     }
 }
